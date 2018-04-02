@@ -1,0 +1,12 @@
+.nodeBox {
+  height : 100px;
+  background : red;
+}
+.node {
+  height : 60%;
+  width : 30%;
+  margin: 1%;
+  background : blue;
+  float : left;
+}
+
