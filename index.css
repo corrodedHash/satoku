@@ -1,12 +1,26 @@
-.nodeBox {
+.nodeBoxInactive {
   height : 100px;
   background : red;
 }
-.node {
+
+.nodeBoxActive {
+  height : 100px;
+  background : yellow;
+}
+
+.nodeInactive {
   height : 60%;
   width : 30%;
   margin: 1%;
   background : blue;
+  float : left;
+}
+
+.nodeActive {
+  height : 60%;
+  width : 30%;
+  margin: 1%;
+  background : green;
   float : left;
 }
 
