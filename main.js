@@ -1,32 +1,7 @@
-// Fisher-Yates shuffle
-function shuffle(array) {
-  let counter = array.length;
+import {generateModel, generate3Sat} from "./3sat.js";
 
-  // While there are elements in the array
-  while (counter > 0) {
-    // Pick a random index
-    let index = Math.floor(Math.random() * counter);
-
-    // Decrease counter by 1
-    counter--;
-
-    // And swap the last element with it
-    let temp = array[counter];
-    array[counter] = array[index];
-    array[index] = temp;
-  }
-
-  return array;
-}
-
-// Returns a random non-zero value <= count
-function randomAssign(count){
-  var result = Math.floor(Math.random() * 2 * count) - count;
-  if (result >= 0){
-    result += 1;
-  }
-  return result;
-}
+var clauseVars = []
+var clauses = []
 
 function assignmentToIndex(assignment){
   if (assignment < 0){
@@ -35,31 +10,6 @@ function assignmentToIndex(assignment){
     return (assignment * 2) - 1;
   }
 }
-
-function generateModel(size) {
-  var result = [];
-  for (var i = 0; i < size; ++i){
-    result.push(randomAssign(1));
-  }
-  return result;
-}
-
-function generate3Sat(model){
-  var result = [];
-  for (var i = 0; i < model.length; ++i){
-    clause = [model[i] * (i + 1), 0, 0];
-    for (var j = 1; j < clause.length; ++j){
-      clause[j] = randomAssign(model.length);
-    }
-    clause = shuffle(clause);
-    result.push(clause);
-  }
-  result = shuffle(result);
-  return result;
-}
-
-var clauseVars = []
-var clauses = []
 
 function createBox(clause) {
   var box = document.createElement("div");
@@ -85,7 +35,8 @@ function createBox(clause) {
 }
 
 function displayQuiz(model, satquery){
-  var modelSize = 10;
+  let modelSize = 10;
+  let result = []
   clauseVars = Array.apply(null, Array(modelSize * 2)).map(function () { return []; });
   model = generateModel(modelSize);
   satquery = generate3Sat(model);
@@ -104,8 +55,8 @@ function flipNode(currentValue) {
 }
 
 function checkBox(box){
-  var boxActive = false;
-  var boxElements = box.getElementsByTagName("div");
+  let boxActive = false;
+  let boxElements = box.getElementsByTagName("div");
   for (var key in boxElements){
     if (boxElements[key].className == "nodeActive"){
       boxActive = true;
