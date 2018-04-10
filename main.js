@@ -13,16 +13,18 @@ function assignmentToIndex(assignment){
 
 function createBox(clause) {
   var box = document.createElement("div");
-  box.className = "nodeBoxInactive";
+  box.className = "nodeBox";
   function createNode(assignment){
     var node = document.createElement("div");
+    node.classList.add("node");
     if (assignment < 0){
-      node.className = "nodeInactive";
+      node.classList.add("nodeNonNegated");
+      node.classList.add("nodeActive");
     } else {
-      node.className = "nodeActive";
+      node.classList.add("nodeNegated");
+      node.classList.add("nodeInactive");
     }
     node.innerHTML = assignment;
-    node.style.cursor = 'pointer';
     node.onclick = () => {nodeClicked(assignment);};
     clauseVars[assignmentToIndex(assignment)].push(node);
     return node;
@@ -47,26 +49,25 @@ function displayQuiz(model, satquery){
 }
 
 function flipNode(currentValue) {
-  if (currentValue.className == "nodeInactive"){
-    currentValue.className = "nodeActive";
-  } else {
-    currentValue.className = "nodeInactive";
-  }
+  currentValue.classList.toggle("nodeActive");
+  currentValue.classList.toggle("nodeInactive");
 }
 
 function checkBox(box){
   let boxActive = false;
   let boxElements = box.getElementsByTagName("div");
-  for (var key in boxElements){
-    if (boxElements[key].className == "nodeActive"){
+  for (var key in [...boxElements]){
+    if (boxElements[key].classList.contains("nodeActive")){
       boxActive = true;
       break;
     }
   }
   if (boxActive == true){
-    box.className = "nodeBoxActive";
+    box.classList.toggle("nodeBoxInactive", false);
+    box.classList.toggle("nodeBoxActive", true);
   } else {
-    box.className = "nodeBoxInactive";
+    box.classList.toggle("nodeBoxActive", false);
+    box.classList.toggle("nodeBoxInactive", true);
   }
 }
 
