@@ -1,7 +1,8 @@
 .nodeBox {
-  display: inline-block;
+  display: inline-flex;
   padding: 0.1vh;
   margin: 0.1vh;
+  white-space: nowrap;
   float: left;
 }
 
@@ -10,17 +11,15 @@
   float: left;
   user-select: none;
 
-  width: 3vh;
-  height: 3vh;
+  width: 1vh;
+  height: 1vh;
   margin: 0.6vh;
 
-  font-size: 1.2vh;
-
-  text-align: center;
-  vertical-align: middle;
-  line-height: 3vh;
-
   background: blue;
+}
+
+.nodeInvisible{
+  background: hsla(350,50%,50%,0);
 }
 
 .nodeBoxInactive {
