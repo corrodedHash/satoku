@@ -1,5 +1,3 @@
-import {factoring3Sat, generate3Sat} from "./3sat.js";
-
 var clauseVars = []
 var clauses = []
 
@@ -15,11 +13,11 @@ function createNode(assignment){
   var node = document.createElement("div");
   node.classList.add("node");
   if (assignment < 0){
-    node.classList.add("nodeNonNegated");
-    node.classList.add("nodeActive");
-  } else {
     node.classList.add("nodeNegated");
     node.classList.add("nodeInactive");
+  } else {
+    node.classList.add("nodeNonNegated");
+    node.classList.add("nodeActive");
   }
   node.innerHTML = assignment;
   node.onclick = () => {nodeClicked(assignment);};
@@ -32,17 +30,18 @@ function createBox(clause) {
   for (var i = 0; i < clause.length; ++i){
     let currentClause = createNode(clause[i]);
     clauseVars[assignmentToIndex(clause[i])].push(currentClause);
-    box.appendChild(createNode(clause[i]));
+    box.appendChild(currentClause);
   }
   clauses.push(box);
   return box;
 }
 
-export function displayQuiz(){
-  let modelSize = 110;
+function displayQuiz(){
+  let modelSize = 10;
   let result = []
   clauseVars = Array.apply(null, Array(modelSize * 2)).map(function () { return []; });
-  let satquery = factoring3Sat();//generate3Sat(modelSize, 20);
+  //let satquery = factoring3Sat();//generate3Sat(modelSize, 20);
+  let satquery = generate3Sat(modelSize, 40);
   for (var i = 0; i < satquery.length; ++i){
     document.body.appendChild(createBox(satquery[i]));
   }
@@ -77,5 +76,3 @@ function nodeClicked(assignment) {
   clauseVars[assignmentToIndex(-1 * assignment)].forEach(flipNode);
   clauses.forEach(checkBox);
 }
-
-displayQuiz();

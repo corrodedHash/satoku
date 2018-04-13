@@ -1,4 +1,3 @@
-import {factoring3Sat, generate3Sat} from "./3sat.js";
 var clauseVars = []
 var clauses = []
 
@@ -51,13 +50,15 @@ function createBox(clause, varCount) {
   return box;
 }
 
-export function displayQuiz(){
-  let modelSize = 110;
+function displayQuiz(){
+  let modelSize = 10;
   let result = []
   clauseVars = Array.apply(null, Array(modelSize * 2)).map(function () { return []; });
-  let satquery = factoring3Sat();//generate3Sat(modelSize, 20);
+  //let satquery = factoring3Sat();//generate3Sat(modelSize, 20);
+  let satquery = generate3Sat(modelSize, 20);
   for (var i = 0; i < satquery.length; ++i){
     document.body.appendChild(createBox(satquery[i], modelSize));
+    document.body.appendChild(document.createElement("br"));
   }
   clauses.forEach(checkBox);
 }
@@ -91,4 +92,3 @@ function nodeClicked(assignment) {
   clauses.forEach(checkBox);
 }
 
-displayQuiz();
