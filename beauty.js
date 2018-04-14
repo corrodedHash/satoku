@@ -58,20 +58,18 @@ function createBox(clause, varCount) {
   return box;
 }
 
-function displayQuiz(){
+function generateQuiz(satquery){
   //let satquery = factoring3Sat();//generate3Sat(modelSize, 20);
   //let satquery = generate3Sat(modelSize, 20);
-  let satquery = additionSat(15, 12);
+  //let satquery = additionSat(15, 12);
   let puzzleDiv = document.createElement("div")
-  puzzleDiv.classList.add("puzzleContainer")
+  puzzleDiv.id = "puzzleContainer"
   for (var i = 0; i < satquery.length; ++i){
     puzzleDiv.appendChild(createBox(satquery[i], getVarCount(satquery)));
   }
-  document.body.appendChild(puzzleDiv)
   clauses.forEach(checkBox);
-  var nodeText = document.createElement("div")
-  nodeText.innerText = satToDimacs(satquery)
-  document.body.appendChild(nodeText)
+  return puzzleDiv
+
 }
 
 function flipNode(currentValue) {

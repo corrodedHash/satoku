@@ -40,7 +40,7 @@ function generateModel(size) {
   return result;
 }
 
-function generate3Sat(varCount, clauseCount){
+function random3Sat(varCount, clauseCount){
   let result = [];
   let model = generateModel(varCount);
   for (let i = 0; i < varCount; ++i){
@@ -64,7 +64,7 @@ function generate3Sat(varCount, clauseCount){
   return result;
 }
 
-function factoring3Sat(){
+function factoringSat(){
   let result = [[2, 3, 4], [6, 7, 8], [-9], [10], [-27, 12, 15], [-27, -12,
     -15], [27, 12, -15], [27, -12, 15], [-12, -15, 28], [12, 15, -28], [12,
       -28], [15, -28], [-13, -16, 30], [-13, -28, 30], [-16, -28, 30], [13, 16,
@@ -128,6 +128,12 @@ function factoring3Sat(){
 }
 
 function additionSat(numA, numB){
+  if (numA <= 0) {
+    numA = 1
+  }
+  if (numB <= 0){
+    numB = 1
+  }
   let numALen = Math.floor(Math.log2(numA)) + 1
   let numBLen = Math.floor(Math.log2(numB)) + 1
   let resultLen = Math.max(numALen, numBLen) + 1
@@ -211,6 +217,7 @@ function satToDimacs(clauses) {
   resultString = "p cnf " + maxVar.toString() + " " + clauses.length.toString() + "\n" + resultString
   return resultString
 }
+
 function getVarCount(clauses){
   let maxVar = 0;
   clauses.forEach((currentClause) => {
