@@ -55,12 +55,16 @@ function displayQuiz(){
   let result = []
   clauseVars = Array.apply(null, Array(modelSize * 2)).map(function () { return []; });
   //let satquery = factoring3Sat();//generate3Sat(modelSize, 20);
-  let satquery = generate3Sat(modelSize, 20);
+  //let satquery = generate3Sat(modelSize, 20);
+  let satquery = additionSat(4, 5);
   for (var i = 0; i < satquery.length; ++i){
     document.body.appendChild(createBox(satquery[i], modelSize));
     document.body.appendChild(document.createElement("br"));
   }
   clauses.forEach(checkBox);
+  var nodeText = document.createElement("div")
+  nodeText.innerText = satToDimacs(satquery)
+  document.body.appendChild(nodeText)
 }
 
 function flipNode(currentValue) {
