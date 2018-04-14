@@ -30,18 +30,26 @@ function createInvisibleNode(assignment){
   return node;
 }
 
+function appendToClauseVars(index, value){
+  if (typeof(clauseVars[index]) === "undefined"){
+    clauseVars[index] = [value];
+  } else {
+    clauseVars[index].push(value);
+  }
+}
+
 function createBox(clause, varCount) {
   var box = document.createElement("div");
   box.className = "nodeBox";
   for (var i = 1; i <= varCount; ++i){
     if (clause.indexOf(i) >= 0){
-      let currentClause = createNode(i);
-      clauseVars[assignmentToIndex(i)].push(currentClause);
-      box.appendChild(currentClause);
+      let currentVariable = createNode(i);
+      appendToClauseVars(assignmentToIndex(i), currentVariable)
+      box.appendChild(currentVariable);
     } else if(clause.indexOf(-1 * i) >=0){
-      let currentClause = createNode(-i);
-      clauseVars[assignmentToIndex(-i)].push(currentClause);
-      box.appendChild(currentClause);
+      let currentVariable = createNode(-i);
+      appendToClauseVars(assignmentToIndex(-i), currentVariable)
+      box.appendChild(currentVariable);
     } else {
       box.appendChild(createInvisibleNode());
     }
@@ -51,16 +59,15 @@ function createBox(clause, varCount) {
 }
 
 function displayQuiz(){
-  let modelSize = 10;
-  let result = []
-  clauseVars = Array.apply(null, Array(modelSize * 2)).map(function () { return []; });
   //let satquery = factoring3Sat();//generate3Sat(modelSize, 20);
   //let satquery = generate3Sat(modelSize, 20);
-  let satquery = additionSat(4, 5);
+  let satquery = additionSat(15, 12);
+  let puzzleDiv = document.createElement("div")
+  puzzleDiv.classList.add("puzzleContainer")
   for (var i = 0; i < satquery.length; ++i){
-    document.body.appendChild(createBox(satquery[i], modelSize));
-    document.body.appendChild(document.createElement("br"));
+    puzzleDiv.appendChild(createBox(satquery[i], getVarCount(satquery)));
   }
+  document.body.appendChild(puzzleDiv)
   clauses.forEach(checkBox);
   var nodeText = document.createElement("div")
   nodeText.innerText = satToDimacs(satquery)

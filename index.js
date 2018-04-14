@@ -24,24 +24,31 @@ function createNode(assignment){
   return node;
 }
 
+function appendToClauseVars(index, value){
+
+  if (typeof(clauseVars[index]) === "undefined"){
+    clauseVars[index] = [value];
+  } else {
+    clauseVars[index].push(value);
+  }
+}
+
 function createBox(clause) {
   var box = document.createElement("div");
   box.className = "nodeBox";
   for (var i = 0; i < clause.length; ++i){
-    let currentClause = createNode(clause[i]);
-    clauseVars[assignmentToIndex(clause[i])].push(currentClause);
-    box.appendChild(currentClause);
+    let currentVariable = createNode(clause[i]);
+    appendToClauseVars(assignmentToIndex(i), currentVariable);
+    box.appendChild(currentVariable);
   }
   clauses.push(box);
   return box;
 }
 
 function displayQuiz(){
-  let modelSize = 110;
-  let result = []
-  clauseVars = Array.apply(null, Array(modelSize * 2)).map(function () { return []; });
-  let satquery = factoring3Sat();//generate3Sat(modelSize, 20);
+  //let satquery = factoring3Sat();//generate3Sat(modelSize, 20);
   //let satquery = generate3Sat(modelSize, 40);
+  let satquery = additionSat(4, 5);
   for (var i = 0; i < satquery.length; ++i){
     document.body.appendChild(createBox(satquery[i]));
   }

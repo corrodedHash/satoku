@@ -211,3 +211,14 @@ function satToDimacs(clauses) {
   resultString = "p cnf " + maxVar.toString() + " " + clauses.length.toString() + "\n" + resultString
   return resultString
 }
+function getVarCount(clauses){
+  let maxVar = 0;
+  clauses.forEach((currentClause) => {
+    currentClause.forEach((currentValue) => {
+      if (Math.abs(currentValue) > maxVar){
+        maxVar = Math.abs(currentValue)
+      }
+    })
+  })
+  return maxVar
+}

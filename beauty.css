@@ -1,18 +1,26 @@
-.nodeBox {
+.puzzleContainer {
+  border-style: groove;
+  background: red;
+
   display: inline-flex;
+}
+
+.nodeBox {
   padding: 0.1vh;
   margin: 0.1vh;
-  white-space: nowrap;
   float: left;
+  vertical-align: top;
 }
 
 .node {
   cursor: pointer;
-  float: left;
   user-select: none;
+  display: block;
+  border: outset;
 
-  width: 1vh;
-  height: 1vh;
+  width: 0.7vh;
+  height: 0.7vh;
+  border-width: 0.1vh;
   margin: 0.6vh;
 
   background: blue;
@@ -20,6 +28,7 @@
 
 .nodeInvisible{
   background: hsla(350,50%,50%,0);
+  border-color: transparent;
 }
 
 .nodeBoxInactive {
@@ -31,11 +40,11 @@
 }
 
 .nodeNegated {
-  color: black;
+  background: blue;
 }
 
 .nodeNonNegated {
-  color: white;
+  background: green;
 }
 
 .nodeActive {
