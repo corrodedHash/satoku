@@ -1,3 +1,6 @@
+/* exported compactPuzzleGenerator */
+/* global gameHandler */
+
 var compactPuzzleGenerator = {
   cssClasses: {
     node: "compactNode",
@@ -40,13 +43,12 @@ var compactPuzzleGenerator = {
   },
 
   generate: function (satquery){
-    gameHandler.activeGenerator = this
-    let puzzleDiv = document.createElement("div")
-    puzzleDiv.id = "puzzleContainer"
+    gameHandler.activeGenerator = this;
+    let puzzleDiv = document.createElement("div");
+    puzzleDiv.id = "puzzleContainer";
     for (var i = 0; i < satquery.length; ++i){
       puzzleDiv.appendChild(this.createBox(satquery[i]));
     }
-    return puzzleDiv
+    return puzzleDiv;
   }
-
-}
+};

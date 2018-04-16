@@ -1,3 +1,7 @@
+/* exported beautyPuzzleGenerator */
+/* global gameHandler */
+/* global getVarCount */
+
 var beautyPuzzleGenerator = {
   cssClasses: {
     node: "beautyNode",
@@ -38,11 +42,11 @@ var beautyPuzzleGenerator = {
     for (var i = 1; i <= varCount; ++i){
       if (clause.indexOf(i) >= 0){
         let currentVariable = this.createNode(i);
-        gameHandler.appendToClauseVars(i, currentVariable)
+        gameHandler.appendToClauseVars(i, currentVariable);
         box.appendChild(currentVariable);
       } else if(clause.indexOf(-1 * i) >=0){
         let currentVariable = this.createNode(-i);
-        gameHandler.appendToClauseVars(-i, currentVariable)
+        gameHandler.appendToClauseVars(-i, currentVariable);
         box.appendChild(currentVariable);
       } else {
         box.appendChild(this.createInvisibleNode());
@@ -54,12 +58,12 @@ var beautyPuzzleGenerator = {
   },
 
   generate: function (satquery){
-    gameHandler.activeGenerator = this
-    let puzzleDiv = document.createElement("div")
-    puzzleDiv.id = "puzzleContainer"
+    gameHandler.activeGenerator = this;
+    let puzzleDiv = document.createElement("div");
+    puzzleDiv.id = "puzzleContainer";
     for (var i = 0; i < satquery.length; ++i){
       puzzleDiv.appendChild(this.createBox(satquery[i], getVarCount(satquery)));
     }
-    return puzzleDiv
+    return puzzleDiv;
   }
-}
+};

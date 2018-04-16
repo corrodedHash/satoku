@@ -1,10 +1,12 @@
+/* exported gameHandler */
+
 var gameHandler = {
   activeGenerator: null,
   clauseVars : [],
   clauses : [],
 
   appendToClauseVars:function (index, value){
-    index = this.assignmentToIndex(index)
+    index = this.assignmentToIndex(index);
     if (typeof(this.clauseVars[index]) === "undefined"){
       this.clauseVars[index] = [value];
     } else {
@@ -34,7 +36,7 @@ var gameHandler = {
         break;
       }
     }
-    if (boxActive == true){
+    if (boxActive === true){
       box.classList.toggle(gameHandler.activeGenerator.cssClasses.nodeBoxInactive, false);
       box.classList.toggle(gameHandler.activeGenerator.cssClasses.nodeBoxActive, true);
     } else {
@@ -48,4 +50,4 @@ var gameHandler = {
     this.clauseVars[this.assignmentToIndex(-1 * assignment)].forEach(this.flipNode);
     this.clauses.forEach(this.checkBox);
   }
-}
+};
