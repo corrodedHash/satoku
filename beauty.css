@@ -1,18 +1,11 @@
-.puzzleContainer {
-  border-style: groove;
-  background: red;
-
-  display: inline-flex;
-}
-
-.nodeBox {
+.beautyNodeBox {
   padding: 0.1vh;
   margin: 0.1vh;
   float: left;
   vertical-align: top;
 }
 
-.node {
+.beautyNode {
   cursor: pointer;
   user-select: none;
   display: block;
@@ -26,30 +19,30 @@
   background: blue;
 }
 
-.nodeInvisible{
+.beautyNodeInvisible{
   background: hsla(350,50%,50%,0);
   border-color: transparent;
 }
 
-.nodeBoxInactive {
+.beautyNodeBoxInactive {
   background : black;
 }
 
-.nodeBoxActive {
+.beautyNodeBoxActive {
   background : gray;
 }
 
-.nodeNegated {
+.beautyNodeNegated {
   background: blue;
 }
 
-.nodeNonNegated {
+.beautyNodeNonNegated {
   background: green;
 }
 
-.nodeActive {
+.beautyNodeActive {
 }
 
-.nodeInactive {
+.beautyNodeInactive {
   box-shadow: 0px 0px 0.6vh 0.3vh rgba(0,0,0,1);
 }

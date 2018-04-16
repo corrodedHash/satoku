@@ -1,0 +1,47 @@
+.compactNodeBox {
+  display: inline-block;
+  padding: 0.1vh;
+  margin: 0.1vh;
+  float: left;
+}
+
+.compactNode {
+  cursor: pointer;
+  float: left;
+  user-select: none;
+
+  width: 3vh;
+  height: 3vh;
+  margin: 0.6vh;
+
+  font-size: 1.2vh;
+
+  text-align: center;
+  vertical-align: middle;
+  line-height: 3vh;
+
+  background: blue;
+}
+
+.compactNodeBoxInactive {
+  background : black;
+}
+
+.compactNodeBoxActive {
+  background : gray;
+}
+
+.compactNodeNegated {
+  color: black;
+}
+
+.compactNodeNonNegated {
+  color: white;
+}
+
+.compactNodeActive {
+}
+
+.compactNodeInactive {
+  box-shadow: 0px 0px 0.6vh 0.3vh rgba(0,0,0,1);
+}

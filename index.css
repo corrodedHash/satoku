@@ -1,47 +1,4 @@
-.nodeBox {
+#puzzleBox {
+  border: groove; 
   display: inline-block;
-  padding: 0.1vh;
-  margin: 0.1vh;
-  float: left;
-}
-
-.node {
-  cursor: pointer;
-  float: left;
-  user-select: none;
-
-  width: 3vh;
-  height: 3vh;
-  margin: 0.6vh;
-
-  font-size: 1.2vh;
-
-  text-align: center;
-  vertical-align: middle;
-  line-height: 3vh;
-
-  background: blue;
-}
-
-.nodeBoxInactive {
-  background : black;
-}
-
-.nodeBoxActive {
-  background : gray;
-}
-
-.nodeNegated {
-  color: black;
-}
-
-.nodeNonNegated {
-  color: white;
-}
-
-.nodeActive {
-}
-
-.nodeInactive {
-  box-shadow: 0px 0px 0.6vh 0.3vh rgba(0,0,0,1);
 }
