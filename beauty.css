@@ -10,6 +10,7 @@
   user-select: none;
   display: block;
   border: outset;
+  font-size: 0px;
 
   width: 0.7vh;
   height: 0.7vh;

@@ -18,12 +18,13 @@ var beautyPuzzleGenerator = {
   createNode: function (assignment){
     var node = document.createElement("div");
     node.classList.add(this.cssClasses.node);
+    node.innerText = assignment;
     if (assignment < 0){
-      node.classList.add(this.cssClasses.nodeNonNegated);
-      node.classList.add(this.cssClasses.nodeActive);
-    } else {
       node.classList.add(this.cssClasses.nodeNegated);
       node.classList.add(this.cssClasses.nodeInactive);
+    } else {
+      node.classList.add(this.cssClasses.nodeNonNegated);
+      node.classList.add(this.cssClasses.nodeActive);
     }
     node.onclick = () => {gameHandler.nodeClicked(assignment);};
     return node;
@@ -44,7 +45,7 @@ var beautyPuzzleGenerator = {
         let currentVariable = this.createNode(i);
         gameHandler.appendToClauseVars(i, currentVariable);
         box.appendChild(currentVariable);
-      } else if(clause.indexOf(-1 * i) >=0){
+      } else if (clause.indexOf(-1 * i) >= 0){
         let currentVariable = this.createNode(-i);
         gameHandler.appendToClauseVars(-i, currentVariable);
         box.appendChild(currentVariable);

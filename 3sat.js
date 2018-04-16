@@ -3,6 +3,7 @@
 /* exported additionSat */
 /* exported satToDimacs */
 /* exported getVarCount */
+
 // Fisher-Yates shuffle
 function shuffle(array) {
   let counter = array.length;
@@ -139,6 +140,9 @@ function additionSat(numA, numB){
   if (numB <= 0){
     numB = 1;
   }
+
+  numA = parseInt(numA);
+  numB = parseInt(numB);
   let numALen = Math.floor(Math.log2(numA)) + 1;
   let numBLen = Math.floor(Math.log2(numB)) + 1;
   let resultLen = Math.max(numALen, numBLen) + 1;
@@ -172,7 +176,7 @@ function additionSat(numA, numB){
   }
 
   for (let i = 0; i < resultLen - 1; ++i){
-    result.push(...resultClause(1 + i, carryIdStart + i + 1, numAIdStart + i, numBIdStart + i));
+    result.push(...resultClause(1 + i, carryIdStart + i, numAIdStart + i, numBIdStart + i));
     result.push(...carryClause(carryIdStart + i + 1, carryIdStart + i, numAIdStart + i, numBIdStart + i));
   }
   result.push([-carryIdStart]);
@@ -182,18 +186,23 @@ function additionSat(numA, numB){
   let binNumA = numA.toString(2).padStart(Math.max(numALen, numBLen), "0");
   let binNumB = numB.toString(2).padStart(Math.max(numALen, numBLen), "0");
 
-  for (let i = Math.max(numALen, numBLen) - 1; i >= 0 ; --i){
-    if (binNumA[i] === "1"){
-      result.push([numAIdStart + Math.max(numALen, numBLen) - i - 1]);
-    } else if (binNumA[i] ==="0"){
-      result.push([-(numAIdStart + Math.max(numALen, numBLen) - i - 1)]);
+  for (let i = Math.max(numALen, numBLen); i >= 0 ; --i){
+    if (binNumA[i - 1] === "1"){
+      result.push([numAIdStart + Math.max(numALen, numBLen) - i]);
+    } else if (binNumA[i - 1] ==="0"){
+      result.push([-(numAIdStart + Math.max(numALen, numBLen) - i )]);
     }
-    if (binNumB[i] === "1"){
-      result.push([numBIdStart + Math.max(numALen, numBLen) - i - 1]);
-    } else if (binNumB[i] ==="0"){
-      result.push([-(numBIdStart + Math.max(numALen, numBLen) - i - 1)]);
+    if (binNumB[i - 1] === "1"){
+      result.push([numBIdStart + Math.max(numALen, numBLen) - i ]);
+    } else if (binNumB[i - 1] ==="0"){
+      result.push([-(numBIdStart + Math.max(numALen, numBLen) - i )]);
     }
   }
+
+  console.log("NumA ID Start: " + numAIdStart);
+  console.log("NumB ID Start: " + numBIdStart);
+  console.log("Carry ID Start: " + carryIdStart);
+
   return result;
 }
 

@@ -39,6 +39,7 @@
           puzzleDiv = compactPuzzleGenerator.generate(puzzle)
         }
         myNode.appendChild(puzzleDiv);
+        document.getElementById("dimacsBox").innerText = satToDimacs(puzzle);
       }
     </script>
   </head>
@@ -63,5 +64,6 @@
       <button onclick="displayQuiz()">Generate</button>
     </div>
     <div id="puzzleBox"></div>
+    <div id="dimacsBox"></div>
   </body>
 </html>
