@@ -36,7 +36,7 @@ function displayQuiz() {
   } else if (document.getElementById("rand").checked) {
     puzzle = random3Sat(10, 20)
   } else if (document.getElementById("add").checked){
-    puzzle = additionSat(document.getElementById("addNumber1").value, document.getElementById("addNumber2").value)
+    puzzle = additionSat(document.getElementById("additionNumber1").value, document.getElementById("additionNumber2").value)
   } else {
     alert("huh?")
   }
@@ -48,6 +48,22 @@ function displayQuiz() {
   }
   myNode.appendChild(puzzleDiv);
   document.getElementById("dimacsBox").innerText = satToDimacs(puzzle);
+}
+function toggleInvisDiv(activatedRadio){
+  let radios = document.getElementsByName(activatedRadio.name);
+  for (let i = 0; i < radios.length; ++i){
+    let radioToggleDiv = document.getElementById(radios[i].id + "Inputs");
+    if (radios[i].checked){
+      if (radioToggleDiv !== null){
+        let style = window.getComputedStyle(radioToggleDiv);
+        radioToggleDiv.style.height = style.getPropertyValue('max-height');
+      }
+    } else {
+      if (radioToggleDiv !== null){
+        radioToggleDiv.style.height = 0;
+      }
+    }
+  }
 }
     </script>
   </head>
@@ -64,28 +80,31 @@ function displayQuiz() {
       </label>
 
       <label class="fancyRadio">
-        <input id="fact" type="radio" name="SatGenerator" checked="checked">
+        <input id="fact" onchange="toggleInvisDiv(this)" type="radio" name="SatGenerator" checked="checked">
         <span class="checkmark">Factoring</span>
       </label>
 
       <label class="fancyRadio">
-        <input id="rand" type="radio" name="SatGenerator">
+        <input id="rand" onchange="toggleInvisDiv(this)" type="radio" name="SatGenerator">
         <span class="checkmark">Random</span>
       </label>
 
       <label class="fancyRadio">
-        <input id="add" type="radio" name="SatGenerator">
+        <input id="add" onchange="toggleInvisDiv(this)" type="radio" name="SatGenerator">
         <span class="checkmark">Addition</span>
-        <input type="number" id="addNumber1" min="0"> + <input type="number" id="addNumber2" min="0">
       </label>
+      <div id="addInputs">
+        <input id="additionNumber1" type="number"><br>
+        <input id="additionNumber2" type="number">
+      </div>
 
       <button onclick="closeNav();displayQuiz()">Generate</button>
       <button onclick="closeNav()">Abort</button>
     </div>
     <div id="main">
-      <input type="button" onclick="openNav()"><br>
+      <input type="button" onclick="openNav()" value="Generation Menu"><br>
       <div id="puzzleBox"></div><br>
-      <div id="dimacsBox"></div>
+      <div id="dimacsBox" style="display: none"></div>
     </div>
   </body>
 </html>
