@@ -2,3 +2,90 @@
   border: groove; 
   display: inline-block;
 }
+#puzzleBox:empty {
+  display: none;
+}
+
+/* The side navigation menu */
+#puzzleSelector{
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: #5FBCE8; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+    transition: margin-left .5s;
+    padding: 20px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .puzzleSelector {padding-top: 15px;}
+}
+
+/* Customize the label (the container) */
+.fancyRadio {
+  display: flex;
+  height: 25px;
+  width: 100%;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.fancyRadio input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 100%;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.fancyRadio:hover input[type="radio"] ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.fancyRadio input[type="radio"]:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/*
+.fancyRadio input[type="radio"] ~ .checkmark:after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  background: white;
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.fancyRadio input[type="radio"]:checked ~ .checkmark:after {
+  display: block;
+}
+*/

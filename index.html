@@ -1,69 +1,91 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <title>Satoku</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="stylesheet" href="beauty.css" />
     <link rel="stylesheet" href="compact.css" />
     <link rel="stylesheet" href="index.css" />
 
-    <script src="3sat.js" charset="utf-8" type="text/javascript">
-    </script>
-    <script src="gameHandler.js" charset="utf-8" type="text/javascript">
-    </script>
-    <script src="beauty.js" charset="utf-8" type="text/javascript">
-    </script>
-    <script src="compact.js" charset="utf-8" type="text/javascript">
-    </script>
+    <script src="3sat.js"></script>
+    <script src="gameHandler.js"></script>
+    <script src="beauty.js"></script>
+    <script src="compact.js"></script>
     <script>
-      function displayQuiz() {
-        // Remove all content from puzzleBox
-        let myNode = document.getElementById("puzzleBox");
-        while (myNode.firstChild) {
-          myNode.removeChild(myNode.firstChild);
-        }
-
-        let puzzle = []
-        if (document.getElementById("fact").checked){
-          puzzle = factoringSat()
-        } else if (document.getElementById("rand").checked) {
-          puzzle = random3Sat(10, 20)
-        } else if (document.getElementById("add").checked){
-          puzzle = additionSat(document.getElementById("addNumber1").value, document.getElementById("addNumber2").value)
-        } else {
-          alert("huh?")
-        }
-        let puzzleDiv = null
-        if (document.getElementById("beauty").checked){
-          puzzleDiv = beautyPuzzleGenerator.generate(puzzle)
-        } else if (document.getElementById("compact").checked){
-          puzzleDiv = compactPuzzleGenerator.generate(puzzle)
-        }
-        myNode.appendChild(puzzleDiv);
-        document.getElementById("dimacsBox").innerText = satToDimacs(puzzle);
+      /* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
+      function openNav() {
+        document.getElementById("puzzleSelector").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
       }
+
+/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+function closeNav() {
+  document.getElementById("puzzleSelector").style.width = "0";
+  document.getElementById("main").style.marginLeft = "0";
+}
+function displayQuiz() {
+  // Remove all content from puzzleBox
+  let myNode = document.getElementById("puzzleBox");
+  while (myNode.firstChild) {
+    myNode.removeChild(myNode.firstChild);
+  }
+
+  let puzzle = []
+  if (document.getElementById("fact").checked){
+    puzzle = factoringSat()
+  } else if (document.getElementById("rand").checked) {
+    puzzle = random3Sat(10, 20)
+  } else if (document.getElementById("add").checked){
+    puzzle = additionSat(document.getElementById("addNumber1").value, document.getElementById("addNumber2").value)
+  } else {
+    alert("huh?")
+  }
+  let puzzleDiv = null
+  if (document.getElementById("beauty").checked){
+    puzzleDiv = beautyPuzzleGenerator.generate(puzzle)
+  } else if (document.getElementById("compact").checked){
+    puzzleDiv = compactPuzzleGenerator.generate(puzzle)
+  }
+  myNode.appendChild(puzzleDiv);
+  document.getElementById("dimacsBox").innerText = satToDimacs(puzzle);
+}
     </script>
   </head>
-  <body>
+  <body onload="openNav()">
     <div id="puzzleSelector">
-      <input type="radio" id="beauty" name="DisplayType" value="beautiful" checked>
-      <label for="fact">Beautiful</label><br>
-      <input type="radio" id="compact" name="DisplayType" value="compact">
-      <label for="fact">Compact</label><br>
+      <label class="fancyRadio">
+        <input id="beauty" type="radio" name="DisplayMode" checked="checked">
+        <span class="checkmark">Beautiful</span>
+      </label>
 
-      <br>
-      <input type="radio" id="fact" name="SatGenerator" value="factoring" checked>
-      <label for="fact">Fact</label><br>
+      <label class="fancyRadio">
+        <input id="compact" type="radio" name="DisplayMode">
+        <span class="checkmark">Compact</span>
+      </label>
 
-      <input type="radio" id="rand" name="SatGenerator" value="random">
-      <label for="rand">Rand</label><br>
+      <label class="fancyRadio">
+        <input id="fact" type="radio" name="SatGenerator" checked="checked">
+        <span class="checkmark">Factoring</span>
+      </label>
 
-      <input type="radio" id="add" name="SatGenerator" value="addition">
-      <label for="add">Add
+      <label class="fancyRadio">
+        <input id="rand" type="radio" name="SatGenerator">
+        <span class="checkmark">Random</span>
+      </label>
+
+      <label class="fancyRadio">
+        <input id="add" type="radio" name="SatGenerator">
+        <span class="checkmark">Addition</span>
         <input type="number" id="addNumber1" min="0"> + <input type="number" id="addNumber2" min="0">
-      </label><br>
-      <button onclick="displayQuiz()">Generate</button>
+      </label>
+
+      <button onclick="closeNav();displayQuiz()">Generate</button>
+      <button onclick="closeNav()">Abort</button>
     </div>
-    <div id="puzzleBox"></div>
-    <div id="dimacsBox"></div>
+    <div id="main">
+      <input type="button" onclick="openNav()"><br>
+      <div id="puzzleBox"></div><br>
+      <div id="dimacsBox"></div>
+    </div>
   </body>
 </html>
