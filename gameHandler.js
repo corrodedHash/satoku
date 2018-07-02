@@ -6,11 +6,11 @@ var gameHandler = {
   clauses : [],
 
   appendToClauseVars:function (index, value){
-    index = this.assignmentToIndex(index);
-    if (typeof(this.clauseVars[index]) === "undefined"){
-      this.clauseVars[index] = [value];
+    index = gameHandler.assignmentToIndex(index);
+    if (typeof(gameHandler.clauseVars[index]) === "undefined"){
+      gameHandler.clauseVars[index] = [value];
     } else {
-      this.clauseVars[index].push(value);
+      gameHandler.clauseVars[index].push(value);
     }
   },
 
@@ -46,8 +46,8 @@ var gameHandler = {
   },
 
   nodeClicked: function (assignment) {
-    this.clauseVars[this.assignmentToIndex(assignment)].forEach(this.flipNode);
-    this.clauseVars[this.assignmentToIndex(-1 * assignment)].forEach(this.flipNode);
-    this.clauses.forEach(this.checkBox);
+    gameHandler.clauseVars[gameHandler.assignmentToIndex(assignment)].forEach(gameHandler.flipNode);
+    gameHandler.clauseVars[gameHandler.assignmentToIndex(-1 * assignment)].forEach(gameHandler.flipNode);
+    gameHandler.clauses.forEach(gameHandler.checkBox);
   }
 };
