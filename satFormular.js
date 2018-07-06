@@ -9,9 +9,9 @@ function SatFormular(){
 SatFormular.prototype.addClause = function(clause) {
   this.clauses.push(clause)
   for (var i = 0; i < clause.length; i++){
-    if (!(clause[i].index in this.variables)){
-      this.variables[clause[i].index] = []
+    if (!(clause[i].number in this.variables)){
+      this.variables[clause[i].number] = []
     }
-    this.variables[clause[i].index].push(this.clauses.length - 1)
+    this.variables[clause[i].number].push(this.clauses.length - 1)
   }
 }
