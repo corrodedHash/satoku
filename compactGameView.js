@@ -5,6 +5,8 @@ function CompactGameView(formular, clickCallback, parentNode) {
   parentNode.appendChild(this.mainNode)
 }
 
+CompactGameView.prototype = Object.create(BaseGameView.prototype);
+
 CompactGameView.prototype.cssClasses = {
   node: "compactNode",
   nodeNonNegated: "compactNodeNonNegated",
@@ -29,7 +31,7 @@ CompactGameView.prototype.createNode = function (
     node.classList.add(this.cssClasses.nodeNonNegated);
     node.classList.add(this.cssClasses.nodeActive);
   }
-  node.innerHTML = (positive ? 1 : -1) * variableNumber + 1;
+  node.innerHTML = (positive ? 1 : -1) * ((1 * variableNumber) + 1);
   node.onclick = () => {this.clickCallback(variableNumber)};
   return node;
 }
@@ -53,29 +55,4 @@ CompactGameView.prototype.generate = function (){
     puzzleDiv.appendChild(this.createBox(this.formular.clauses[i], i));
   }
   return puzzleDiv;
-}
-
-CompactGameView.prototype.setClause = function(clauseIndex, positive){
-  let clauseNode = this.mainNode.getElementById("clause_" + clauseIndex);
-  if (positive){
-    clauseNode.classList.remove(this.cssClasses.nodeBoxInactive)
-    clauseNode.classList.add(this.cssClasses.nodeBoxActive)
-  } else {
-    clauseNode.classList.remove(this.cssClasses.nodeBoxActive)
-    clauseNode.classList.add(this.cssClasses.nodeBoxInactive)
-  }
-}
-
-CompactGameView.prototype.setVariable = function(
-  clauseIndex, variableNumber, positive){
-  let clauseNode = this.mainNode.getElementById("var_" 
-    + clauseIndex + ":" + variableNumber);
-  if (positive){
-    clauseNode.classList.remove(this.cssClasses.nodeInactive)
-    clauseNode.classList.add(this.cssClasses.nodeActive)
-  } else {
-    clauseNode.classList.remove(this.cssClasses.nodeActive)
-    clauseNode.classList.add(this.cssClasses.nodeInactive)
-  }
-
 }
