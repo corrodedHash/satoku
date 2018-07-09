@@ -7,10 +7,11 @@
     <link rel="stylesheet" href="compact.css" />
     <link rel="stylesheet" href="index.css" />
 
+    <script src="satFormular.js"></script>
     <script src="3sat.js"></script>
+    <script src="gameModel.js"></script>
+    <script src="gameView.js"></script>
     <script src="gameHandler.js"></script>
-    <script src="beauty.js"></script>
-    <script src="compact.js"></script>
     <script>
       /* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
       function openNav() {
@@ -30,25 +31,9 @@ function displayQuiz() {
     myNode.removeChild(myNode.firstChild);
   }
 
-  let puzzle = []
-  if (document.getElementById("fact").checked){
-    puzzle = factoringSat()
-  } else if (document.getElementById("rand").checked) {
-    puzzle = random3Sat(10, 20)
-  } else if (document.getElementById("add").checked){
-    puzzle = additionSat(document.getElementById("additionNumber1").value, document.getElementById("additionNumber2").value)
-  } else {
-    alert("huh?")
-  }
-  let puzzleDiv = null
-  if (document.getElementById("beauty").checked){
-    puzzleDiv = beautyPuzzleGenerator.generate(puzzle)
-  } else if (document.getElementById("compact").checked){
-    puzzleDiv = compactPuzzleGenerator.generate(puzzle)
-  }
-  myNode.appendChild(puzzleDiv);
-  document.getElementById("dimacsBox").innerText = satToDimacs(puzzle);
+  let gameHandler = new GameHandler(myNode)
 }
+
 function toggleInvisDiv(activatedRadio){
   let radios = document.getElementsByName(activatedRadio.name);
   for (let i = 0; i < radios.length; ++i){

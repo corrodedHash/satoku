@@ -1,7 +1,7 @@
 function GameModel(_formular){
   this.formular = _formular
   this.assignment = []
-  for (var i = 0; i < this.formular.variables.length; i++){
+  for (var i = 0; i < this.formular.variableUses.length; i++){
     this.assignment.push(true)
   }
   this.variableListeners = []
@@ -9,10 +9,9 @@ function GameModel(_formular){
 }
 
 GameModel.prototype.clauseTrue = function(clauseIndex){
-  for (var i = 0; i < this.formular.clauses[clauseIndex].length; i++){
-    var variableNumber = this.formular.clauses[clauseIndex][i].number
-    if (this.assignment[variableNumber] 
-      == this.formular.clauses[variableNumber].positive){
+  let clause = this.formular.clauses[clauseIndex]
+  for (let variableNumber in clause){
+    if (this.assignment[variableNumber] == clause[variableNumber]){
       return true
     }
   }
@@ -22,31 +21,17 @@ GameModel.prototype.clauseTrue = function(clauseIndex){
 GameModel.prototype.flipVariableAssignment = function(variableNumber)
 {
   this.assignment[variableNumber] = !(this.assignment[variableNumber])
-  for (int i = 0; i < this.formular.variables[variableNumber].length; i++){
-    var clauseIndex = this.formular.variables[variableNumber][i]
-    for (int j = 0; j < this.variableListeners.length; j++){
-      this.variableListeners[j](clauseIndex, variableNumber, this.formular.clauses[clauseIndex][variableIndex]
-    }
-  }
-}
 
-GameModel.prototype.setVariableAssignment = function(clauseIndex, variableNumber, boolstate)
-{
-  for (var i = 0; i < this.formular[clauseIndex].length; i++){
-    if (this.formular[clauseIndex][i].number == variableNumber){
-      this.assignment[clauseIndex][i] = boolstate
-    }
-  }
-}
+  for (let i = 0; i < this.formular.variableUses[variableNumber].length; i++){
+    var clauseIndex = this.formular.variableUses[variableNumber][i]
+    for (let j = 0; j < this.clauseListeners.length; j++){
+      this.variableListeners[j](clauseIndex, variableNumber,
+        this.assignment[variableNumber]
+        == this.formular.clauses[clauseIndex][variableNumber])
 
-GameModel.prototype.getVariableAssignment = function(clauseIndex, variableNumber){
-  for (var i = 0; i < this.formular[clauseIndex].length; i++){
-    if (this.formular[clauseIndex][i].number == variableNumber){
-      return this.formular[clauseIndex][i].positive == this.assignment[clauseIndex][i]
+      this.clauseListeners[j](clauseIndex, this.clauseTrue(clauseIndex))
     }
   }
-  console.log("Variable " + variableNumber
-    + " not contained in clause " + clauseIndex)
 }
 
 GameModel.prototype.isWon = function(){

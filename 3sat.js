@@ -71,7 +71,7 @@ function random3Sat(varCount, clauseCount){
 }
 
 function factoringSat(){
-  let result = [[2, 3, 4], [6, 7, 8], [-9], [10], [-27, 12, 15], [-27, -12,
+  let satList = [[2, 3, 4], [6, 7, 8], [-9], [10], [-27, 12, 15], [-27, -12,
     -15], [27, 12, -15], [27, -12, 15], [-12, -15, 28], [12, 15, -28], [12,
     -28], [15, -28], [-13, -16, 30], [-13, -28, 30], [-16, -28, 30], [13, 16,
     -30], [13, 28, -30], [16, 28, -30], [-14, -17, 32], [-14, -30, 32],
@@ -128,8 +128,16 @@ function factoringSat(){
     -106], [-39, -48, 107], [49, -34, -107], [39, -48, 108], [49, 34,
     -108], [-39, 48, 109], [49, 34, -109], [39, 48, 110], [49, -34,
     -110]];
-  result.forEach((currentValue) => {shuffle(currentValue);});
-  shuffle(result);
+
+  let result = new SatFormular()
+  for (let clause = 0; clause < satList.length; clause++){
+    let resultClause = {}
+    for (let variableIndex = 0; variableIndex < satList[clause].length; variableIndex++){
+      let variableNumber = satList[clause][variableIndex]
+      resultClause[Math.abs(variableNumber) - 1] = variableNumber > 0
+    }
+    result.addClause(resultClause) 
+  }
   return result;
 }
 

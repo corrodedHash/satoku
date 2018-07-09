@@ -1,17 +1,17 @@
 function SatFormular(){
   // Contains index of clauses which used variables[i]
-  this.variables = []
+  this.variableUses = []
   // Contains all clauses
-  // A clause contains variable = {number: 0, positive: true}
+  // A clause is a dictionary with key: positive
   this.clauses = []
 }
 
 SatFormular.prototype.addClause = function(clause) {
   this.clauses.push(clause)
-  for (var i = 0; i < clause.length; i++){
-    if (!(clause[i].number in this.variables)){
-      this.variables[clause[i].number] = []
+  for (let variable in clause){
+    if (!(variable in this.variableUses)){
+      this.variableUses[variable] = []
     }
-    this.variables[clause[i].number].push(this.clauses.length - 1)
+    this.variableUses[variable].push(this.clauses.length - 1)
   }
 }
