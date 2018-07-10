@@ -2,7 +2,6 @@
 /* exported factoringSat */
 /* exported additionSat */
 /* exported satToDimacs */
-/* exported getVarCount */
 
 // Fisher-Yates shuffle
 function shuffle(array) {
@@ -212,32 +211,4 @@ function additionSat(numA, numB){
   console.log("Carry ID Start: " + carryIdStart);
 
   return result;
-}
-
-function satToDimacs(clauses) {
-  let maxVar = 0;
-  let resultString = "";
-  clauses.forEach((currentClause) => {
-    currentClause.forEach((currentValue) => {
-      resultString += currentValue.toString() + " ";
-      if (Math.abs(currentValue) > maxVar){
-        maxVar = Math.abs(currentValue);
-      }
-    });
-    resultString += "0\n";
-  });
-  resultString = "p cnf " + maxVar.toString() + " " + clauses.length.toString() + "\n" + resultString;
-  return resultString;
-}
-
-function getVarCount(clauses){
-  let maxVar = 0;
-  clauses.forEach((currentClause) => {
-    currentClause.forEach((currentValue) => {
-      if (Math.abs(currentValue) > maxVar){
-        maxVar = Math.abs(currentValue);
-      }
-    });
-  });
-  return maxVar;
 }
