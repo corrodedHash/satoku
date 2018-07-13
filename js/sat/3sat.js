@@ -1,8 +1,3 @@
-/* exported random3Sat */
-/* exported factoringSat */
-/* exported additionSat */
-/* exported satToDimacs */
-
 function arrayToSatFormular(array){
   let result = new SatFormular()
   for (let i = 0; i < array.length; i++){
