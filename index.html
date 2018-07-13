@@ -33,7 +33,18 @@ function displayQuiz() {
     myNode.removeChild(myNode.firstChild);
   }
 
-  let gameHandler = new GameHandler(myNode)
+  let beautyRadioChecked = document.getElementById("beauty").checked == true;
+  let compactRadioChecked = document.getElementById("compact").checked == true;
+  let gameViewClass = []
+  if (beautyRadioChecked){
+    gameViewClass = PrettyGameView
+  } else if (compactRadioChecked){
+    gameViewClass = CompactGameView
+  } else {
+    alert("huh?")
+  }
+
+  let gameHandler = new GameHandler(myNode, gameViewClass, GameModel)
 }
 
 function toggleInvisDiv(activatedRadio){
