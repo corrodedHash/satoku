@@ -1,5 +1,5 @@
-function GameHandler(parentNode, gameViewClass, gameModelClass){
-  this.formular = factoringSat()
+function GameHandler(parentNode, gameViewClass, gameModelClass, formular){
+  this.formular = formular 
 
   this.view = new gameViewClass(this.formular, 
     this.clickHandler.bind(this), parentNode)

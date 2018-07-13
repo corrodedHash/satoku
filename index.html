@@ -44,7 +44,25 @@ function displayQuiz() {
     alert("huh?")
   }
 
-  let gameHandler = new GameHandler(myNode, gameViewClass, GameModel)
+  let factoringRadioChecked = document.getElementById("fact").checked == true;
+  let randomRadioChecked = document.getElementById("rand").checked == true;
+  let additionRadioChecked = document.getElementById("add").checked == true;
+
+  let formular = []
+
+  if (factoringRadioChecked){
+    formular = factoringSat()
+  } else if (randomRadioChecked){
+    formular = random3Sat(10, 20)
+  } else if (additionRadioChecked){
+    formular = additionSat(
+      document.getElementById("additionNumber1").value,
+      document.getElementById("additionNumber2").value)
+  } else {
+    alert("huh?")
+  }
+
+  let gameHandler = new GameHandler(myNode, gameViewClass, GameModel, formular)
 }
 
 function toggleInvisDiv(activatedRadio){
@@ -92,8 +110,8 @@ function toggleInvisDiv(activatedRadio){
         <span class="checkmark">Addition</span>
       </label>
       <div id="addInputs">
-        <input id="additionNumber1" type="number"><br>
-        <input id="additionNumber2" type="number">
+        <input id="additionNumber1" type="number" value="20"><br>
+        <input id="additionNumber2" type="number" value="30">
       </div>
 
       <button onclick="closeNav();displayQuiz()">Generate</button>
