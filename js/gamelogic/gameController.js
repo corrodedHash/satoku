@@ -1,4 +1,4 @@
-function GameHandler(parentNode, gameViewClass, gameModelClass, formular){
+function GameController(parentNode, gameViewClass, gameModelClass, formular){
   this.formular = formular 
 
   this.view = new gameViewClass(this.formular, 
@@ -12,6 +12,9 @@ function GameHandler(parentNode, gameViewClass, gameModelClass, formular){
   this.model.updateAll()
 }
 
-GameHandler.prototype.clickHandler = function (variableNumber){
+GameController.prototype.clickHandler = function (variableNumber){
   this.model.flipVariableAssignment(variableNumber)
+  if (this.model.isWon()){
+    alert("You won!")
+  }
 }

@@ -1,4 +1,7 @@
-function arrayToSatFormular(array){
+var SatGenerator = {}
+
+// Turns a 2 dimensional clause into a SatFormular object
+SatGenerator.arrayToSatFormular = function(array){
   let result = new SatFormular()
   for (let i = 0; i < array.length; i++){
     let resultClause = {}
@@ -6,7 +9,10 @@ function arrayToSatFormular(array){
     for (let j = 0; j < array[i].length; j++){
       let variableNumber = Math.abs(array[i][j]) - 1
       let variableSign = array[i][j] > 0
-      if (!(variableNumber in resultClause)){
+      // SatFormular Objects cannot hold tautologic clauses (A, -A)
+      // So discard that clause
+      if (!(variableNumber in resultClause) 
+        || resultClause[variableNumber] == variableSign){
         resultClause[variableNumber] = variableSign
       } else {
         useClause = false
@@ -29,10 +35,9 @@ function shuffle(array) {
     // Pick a random index
     let index = Math.floor(Math.random() * counter);
 
-    // Decrease counter by 1
     counter--;
 
-    // And swap the last element with it
+    // Swap the last element with it
     let temp = array[counter];
     array[counter] = array[index];
     array[index] = temp;
@@ -46,7 +51,7 @@ function getRandom(min, max){
 }
 
 // Returns a random non-zero value <= count
-function randomAssign(count){
+SatGenerator.randomAssign = function (count){
   let result = Math.floor(Math.random() * 2 * count) - count;
   if (result >= 0){
     result += 1;
@@ -54,21 +59,21 @@ function randomAssign(count){
   return result;
 }
 
-function generateModel(size) {
+SatGenerator.generateModel = function (size) {
   let result = [];
   for (let i = 0; i < size; ++i){
-    result.push(randomAssign(1));
+    result.push(SatGenerator.randomAssign(1));
   }
   return result;
 }
 
-function random3Sat(varCount, clauseCount){
+SatGenerator.random3Sat = function(varCount, clauseCount){
   let result = [];
-  let model = generateModel(varCount);
+  let model = SatGenerator.generateModel(varCount);
   for (let i = 0; i < varCount; ++i){
     let clause = [model[i] * (i + 1), 0, 0];
     for (let j = 1; j < clause.length; ++j){
-      clause[j] = randomAssign(varCount);
+      clause[j] = SatGenerator.randomAssign(varCount);
     }
     clause = shuffle(clause);
     result.push(clause);
@@ -77,16 +82,16 @@ function random3Sat(varCount, clauseCount){
     let curVar = getRandom(0, varCount - 1);
     let clause = [model[curVar] * (curVar + 1), 0, 0];
     for (let j = 1; j < clause.length; ++j){
-      clause[j] = randomAssign(varCount);
+      clause[j] = SatGenerator.randomAssign(varCount);
     }
     clause = shuffle(clause);
     result.push(clause);
   }
   result = shuffle(result);
-  return arrayToSatFormular(result);
+  return SatGenerator.arrayToSatFormular(result);
 }
 
-function factoringSat(){
+SatGenerator.factoringSat = function (){
   let satList = [[2, 3, 4], [6, 7, 8], [-9], [10], [-27, 12, 15], [-27, -12,
     -15], [27, 12, -15], [27, -12, 15], [-12, -15, 28], [12, 15, -28], [12,
       -28], [15, -28], [-13, -16, 30], [-13, -28, 30], [-16, -28, 30], [13, 16,
@@ -157,7 +162,7 @@ function factoringSat(){
   return result;
 }
 
-function additionSat(numA, numB){
+SatGenerator.additionSat = function(numA, numB){
   if (numA <= 0) {
     numA = 1;
   }
@@ -223,9 +228,9 @@ function additionSat(numA, numB){
     }
   }
 
-  console.log("NumA ID Start: " + numAIdStart);
-  console.log("NumB ID Start: " + numBIdStart);
-  console.log("Carry ID Start: " + carryIdStart);
+  //console.log("NumA ID Start: " + numAIdStart);
+  //console.log("NumB ID Start: " + numBIdStart);
+  //console.log("Carry ID Start: " + carryIdStart);
 
-  return arrayToSatFormular(result);
+  return SatGenerator.arrayToSatFormular(result);
 }

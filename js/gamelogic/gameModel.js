@@ -59,7 +59,7 @@ GameModel.prototype.updateAll = function(){
 }
 
 GameModel.prototype.isWon = function(){
-  for (var i = 0; i < this.assignment.length; i++){
+  for (var i = 0; i < this.formular.clauses.length; i++){
     if (!(this.clauseTrue(i))){
       return false
     }

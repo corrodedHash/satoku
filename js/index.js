@@ -9,6 +9,7 @@ function closeNav() {
   document.getElementById("puzzleSelector").style.width = "0";
   document.getElementById("main").style.marginLeft = "0";
 }
+
 function displayQuiz() {
   // Remove all content from puzzleBox
   let myNode = document.getElementById("puzzleBox");
@@ -34,18 +35,18 @@ function displayQuiz() {
   let formular = []
 
   if (factoringRadioChecked){
-    formular = factoringSat()
+    formular = SatGenerator.factoringSat()
   } else if (randomRadioChecked){
-    formular = random3Sat(10, 20)
+    formular = SatGenerator.random3Sat(10, 20)
   } else if (additionRadioChecked){
-    formular = additionSat(
+    formular = SatGenerator.additionSat(
       document.getElementById("additionNumber1").value,
       document.getElementById("additionNumber2").value)
   } else {
     alert("huh?")
   }
 
-  let gameHandler = new GameHandler(myNode, gameViewClass, GameModel, formular)
+  let gameController = new GameController(myNode, gameViewClass, GameModel, formular)
 }
 
 function toggleInvisDiv(activatedRadio){
