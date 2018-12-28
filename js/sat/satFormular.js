@@ -23,7 +23,7 @@ SatFormular.prototype.toDimacs = function() {
   for (let clauseIndex = 0; clauseIndex < this.clauses.length; clauseIndex++){
     for (let variableNumber in this.clauses[clauseIndex]){
       resultString += this.clauses[clauseIndex][variableNumber] ? "" : "-";
-      resultString += ((1 * variableNumber) + 1)
+      resultString += ((parseInt(variableNumber)) + 1)
       resultString += " "
     }
     resultString += "0\n"

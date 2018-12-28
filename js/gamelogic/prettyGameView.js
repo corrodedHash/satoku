@@ -36,7 +36,8 @@ PrettyGameView.prototype.createNode = function (
     node.classList.add(this.cssClasses.nodeNonNegated);
     node.classList.add(this.cssClasses.nodeActive);
   }
-  node.innerHTML = (positive ? 1 : -1) * ((1 * variableNumber) + 1);
+  let id = (positive ? 1 : -1) * ((1 * variableNumber) + 1)
+  node.innerHTML = id.toString();
   node.onclick = () => {this.clickCallback(variableNumber)};
   return node;
 }

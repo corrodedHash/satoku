@@ -172,8 +172,8 @@ SatGenerator.additionSat = function(numA, numB){
 
   numA = parseInt(numA);
   numB = parseInt(numB);
-  let numALen = Math.floor(Math.log2(numA)) + 1;
-  let numBLen = Math.floor(Math.log2(numB)) + 1;
+  let numALen = Math.floor(Math.log(numA) / Math.log(2)) + 1;
+  let numBLen = Math.floor(Math.log(numB) / Math.log(2)) + 1;
   let resultLen = Math.max(numALen, numBLen) + 1;
   let numAIdStart = 1 + resultLen;
   let numBIdStart = numAIdStart + Math.max(numALen, numBLen);
