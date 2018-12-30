@@ -32,7 +32,7 @@ function displayQuiz() {
   let randomRadioChecked = document.getElementById("rand").checked == true;
   let additionRadioChecked = document.getElementById("add").checked == true;
 
-  let formular = []
+  let formular: SatFormular;
 
   if (factoringRadioChecked){
     formular = SatGenerator.factoringSat()

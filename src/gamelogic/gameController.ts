@@ -1,20 +1,27 @@
-function GameController(parentNode, gameViewClass, gameModelClass, formular){
-  this.formular = formular 
+class GameController {
+  formular: SatFormular;
+  view: any;
+  model: any;
+  constructor(parentNode: HTMLElement, gameViewClass: any, gameModelClass: new (arg0: SatFormular) => void, formular: SatFormular){
+    this.formular = formular
 
-  this.view = new gameViewClass(this.formular, 
-    this.clickHandler.bind(this), parentNode)
+    this.view = new gameViewClass(this.formular,
+      this.clickHandler.bind(this), parentNode)
 
-  this.model = new gameModelClass(this.formular)
+    this.model = new gameModelClass(this.formular)
 
-  this.model.variableListeners.push(this.view.setVariable.bind(this.view))
-  this.model.clauseListeners.push(this.view.setClause.bind(this.view))
+    this.model.variableListeners.push(this.view.setVariable.bind(this.view))
+    this.model.clauseListeners.push(this.view.setClause.bind(this.view))
 
-  this.model.updateAll()
-}
-
-GameController.prototype.clickHandler = function (variableNumber){
-  this.model.flipVariableAssignment(variableNumber)
-  if (this.model.isWon()){
-    alert("You won!")
+    this.model.updateAll()
   }
+
+  clickHandler (variableNumber: number){
+    this.model.flipVariableAssignment(variableNumber)
+    if (this.model.isWon()){
+      alert("You won!")
+    }
+  }
+
 }
+

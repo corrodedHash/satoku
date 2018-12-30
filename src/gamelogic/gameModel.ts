@@ -1,68 +1,71 @@
-function GameModel(_formular){
-  this.formular = _formular
-  this.assignment = []
-  for (var i = 0; i < this.formular.variableUses.length; i++){
-    this.assignment.push(true)
-  }
-  this.variableListeners = []
-  this.clauseListeners = []
-}
-
-GameModel.prototype.clauseTrue = function(clauseIndex){
-  let clause = this.formular.clauses[clauseIndex]
-  for (let variableNumber in clause){
-    if (this.assignment[variableNumber] == clause[variableNumber]){
-      return true
+class GameModel {
+  variableListeners: Array<(clauseIndex: number, variableNumber: number, state: boolean) => void >= [];
+  clauseListeners: Array<(clauseIndex: number, state: boolean) => void >= [];
+  formular: SatFormular;
+  assignment: Array<boolean> = [];
+  constructor(formular: SatFormular){
+    this.formular = formular
+    for (var i = 0; i < this.formular.variableUses.length; i++){
+      this.assignment.push(true)
     }
   }
-  return false
-}
+  clauseTrue (clauseIndex: number) : boolean{
+    let clause = this.formular.clauses[clauseIndex]
+    for (let variableNumber in clause){
+      if (this.assignment[variableNumber] == (clause[variableNumber] > 0)){
+        return true
+      }
+    }
+    return false
+  }
+  flipVariableAssignment(variableNumber: number): void{
+    this.assignment[variableNumber] = !(this.assignment[variableNumber])
 
-GameModel.prototype.flipVariableAssignment = function(variableNumber){
-  this.assignment[variableNumber] = !(this.assignment[variableNumber])
-
-  for (let i = 0; i < this.formular.variableUses[variableNumber].length; i++){
-    var clauseIndex = this.formular.variableUses[variableNumber][i]
+    for (let i = 0; i < this.formular.variableUses[variableNumber].length; i++){
+      var clauseIndex = this.formular.variableUses[variableNumber][i]
       this.notifyVariableListeners(clauseIndex, variableNumber,
         this.assignment[variableNumber]
-        == this.formular.clauses[clauseIndex][variableNumber])
+        == (this.formular.clauses[clauseIndex][variableNumber] > 0))
 
       this.notifyClauseListeners(clauseIndex, this.clauseTrue(clauseIndex))
+    }
   }
-}
-
-GameModel.prototype.notifyClauseListeners = function(clauseIndex, 
-  state) {
+  notifyClauseListeners (clauseIndex: number,
+    state: boolean) {
     for (let j = 0; j < this.variableListeners.length; j++){
       this.clauseListeners[j](clauseIndex, state)
     }
-}
-
-GameModel.prototype.notifyVariableListeners = function(clauseIndex, 
-  variableNumber, state) {
+  }
+  notifyVariableListeners (clauseIndex: number,
+    variableNumber: number, state: boolean) {
     for (let j = 0; j < this.variableListeners.length; j++){
       this.variableListeners[j](clauseIndex, variableNumber,
         state)
     }
-}
+  }
 
-GameModel.prototype.updateAll = function(){
-  for (let clauseIndex = 0; clauseIndex < this.formular.clauses.length; 
-    clauseIndex++){
-    for (let variableNumber in this.formular.clauses[clauseIndex]){
-      this.notifyVariableListeners(clauseIndex, variableNumber, 
-        this.assignment[variableNumber]
-        == this.formular.clauses[clauseIndex][variableNumber])
+  updateAll (){
+    for (let clauseIndex = 0; clauseIndex < this.formular.clauses.length;
+      clauseIndex++){
+      for (let variableNumber in this.formular.clauses[clauseIndex]){
+        this.notifyVariableListeners(clauseIndex, parseInt(variableNumber),
+          this.assignment[variableNumber]
+          == (this.formular.clauses[clauseIndex][variableNumber] > 0))
+      }
+      this.notifyClauseListeners(clauseIndex, this.clauseTrue(clauseIndex))
     }
-    this.notifyClauseListeners(clauseIndex, this.clauseTrue(clauseIndex))
+  }
+
+  isWon (){
+    for (var i = 0; i < this.formular.clauses.length; i++){
+      if (!(this.clauseTrue(i))){
+        return false
+      }
+    }
+    return true
   }
 }
 
-GameModel.prototype.isWon = function(){
-  for (var i = 0; i < this.formular.clauses.length; i++){
-    if (!(this.clauseTrue(i))){
-      return false
-    }
-  }
-  return true
-}
+
+
+
