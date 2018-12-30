@@ -1,0 +1,10 @@
+  "name": "satouku",
+  "version": "1.0.0",
+  "description": "Browsergame",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC"
+}

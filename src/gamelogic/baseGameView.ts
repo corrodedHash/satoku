@@ -1,6 +1,6 @@
 function BaseGameView() {}
 
-BaseGameView.prototype.setClause = function(clauseIndex, positive){
+BaseGameView.prototype.setClause = function(clauseIndex: number, positive: boolean){
   let clauseNode = this.mainNode.ownerDocument.getElementById("clause_" + clauseIndex);
   if (positive){
     clauseNode.classList.remove(this.cssClasses.nodeBoxInactive)
@@ -12,8 +12,8 @@ BaseGameView.prototype.setClause = function(clauseIndex, positive){
 }
 
 BaseGameView.prototype.setVariable = function(
-  clauseIndex, variableNumber, positive){
-  let clauseNode = this.mainNode.ownerDocument.getElementById("var_" 
+  clauseIndex: number, variableNumber: number, positive: boolean){
+  let clauseNode = this.mainNode.ownerDocument.getElementById("var_"
     + clauseIndex + ":" + variableNumber);
   if (positive){
     clauseNode.classList.remove(this.cssClasses.nodeInactive)
