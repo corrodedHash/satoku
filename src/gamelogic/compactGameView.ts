@@ -20,7 +20,7 @@ CompactGameView.prototype.cssClasses = {
 }
 
 CompactGameView.prototype.createNode = function (
-  clauseIndex, variableNumber, positive){
+  clauseIndex: number, variableNumber: number, positive: boolean){
   var node = document.createElement("div");
   node.id = "var_" + clauseIndex + ":" + variableNumber;
   node.classList.add(this.cssClasses.node);
@@ -31,13 +31,13 @@ CompactGameView.prototype.createNode = function (
     node.classList.add(this.cssClasses.nodeNonNegated);
     node.classList.add(this.cssClasses.nodeActive);
   }
-  let id = (positive ? 1 : -1) * ((parseInt(variableNumber)) + 1)
+  let id = (positive ? 1 : -1) * (variableNumber + 1)
   node.innerHTML = id.toString();
   node.onclick = () => {this.clickCallback(variableNumber)};
   return node;
 }
 
-CompactGameView.prototype.createBox = function (clause, clauseIndex) {
+CompactGameView.prototype.createBox = function (clause: Array<number>, clauseIndex: number) {
   var box = document.createElement("div");
   box.className = this.cssClasses.nodeBox;
   box.id = "clause_" + clauseIndex;

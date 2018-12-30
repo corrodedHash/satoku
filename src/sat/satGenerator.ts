@@ -1,33 +1,38 @@
-var SatGenerator = {}
-
-// Turns a 2 dimensional clause into a SatFormular object
-SatGenerator.arrayToSatFormular = function(array){
-  let result = new SatFormular()
-  for (let i = 0; i < array.length; i++){
-    let resultClause = {}
-    let useClause = true
-    for (let j = 0; j < array[i].length; j++){
-      let variableNumber = Math.abs(array[i][j]) - 1
-      let variableSign = array[i][j] > 0
-      // SatFormular Objects cannot hold tautologic clauses (A, -A)
-      // So discard that clause
-      if (!(variableNumber in resultClause) 
-        || resultClause[variableNumber] == variableSign){
-        resultClause[variableNumber] = variableSign
-      } else {
-        useClause = false
-        break
+class SatGenerator {
+  static randomAssign: (count: number) => number;
+  static generateModel: (size: number) => number[];
+  static random3Sat: (varCount: number, clauseCount: number) => any;
+  static factoringSat: () => SatFormular;
+  static additionSat: (numA: number, numB: number) => SatFormular;
+  // Turns a 2 dimensional clause into a SatFormular object
+  static arrayToSatFormular(array: Array<Array<number>>){
+    let result = new SatFormular()
+    for (let i = 0; i < array.length; i++){
+      let resultClause: Array<number> = []
+      let useClause = true
+      for (let j = 0; j < array[i].length; j++){
+        let variableNumber = Math.abs(array[i][j]) - 1
+        let variableSign = array[i][j] > 0
+        // SatFormular Objects cannot hold tautologic clauses (A, -A)
+        // So discard that clause
+        if (!(variableNumber in resultClause)
+          || (resultClause[variableNumber] > 0) == variableSign){
+          resultClause[variableNumber] = variableSign ? 1 : -1;
+        } else {
+          useClause = false
+          break
+        }
+      }
+      if (useClause){
+        result.addClause(resultClause)
       }
     }
-    if (useClause){
-      result.addClause(resultClause)
-    }
+    return result;
   }
-  return result;
 }
 
 // Fisher-Yates shuffle
-function shuffle(array) {
+function shuffle(array: Array<any>) {
   let counter = array.length;
 
   // While there are elements in the array
@@ -46,12 +51,12 @@ function shuffle(array) {
   return array;
 }
 
-function getRandom(min, max){
+function getRandom(min: number, max: number){
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
 // Returns a random non-zero value <= count
-SatGenerator.randomAssign = function (count){
+SatGenerator.randomAssign = function (count: number){
   let result = Math.floor(Math.random() * 2 * count) - count;
   if (result >= 0){
     result += 1;
@@ -59,7 +64,7 @@ SatGenerator.randomAssign = function (count){
   return result;
 }
 
-SatGenerator.generateModel = function (size) {
+SatGenerator.generateModel = function (size: number) {
   let result = [];
   for (let i = 0; i < size; ++i){
     result.push(SatGenerator.randomAssign(1));
@@ -67,7 +72,7 @@ SatGenerator.generateModel = function (size) {
   return result;
 }
 
-SatGenerator.random3Sat = function(varCount, clauseCount){
+SatGenerator.random3Sat = function(varCount: number, clauseCount: number){
   let result = [];
   let model = SatGenerator.generateModel(varCount);
   for (let i = 0; i < varCount; ++i){
@@ -152,17 +157,17 @@ SatGenerator.factoringSat = function (){
 
   let result = new SatFormular()
   for (let clause = 0; clause < satList.length; clause++){
-    let resultClause = {}
+    let resultClause: Array<number> = []
     for (let variableIndex = 0; variableIndex < satList[clause].length; variableIndex++){
       let variableNumber = satList[clause][variableIndex]
-      resultClause[Math.abs(variableNumber) - 1] = variableNumber > 0
+      resultClause[Math.abs(variableNumber) - 1] = (variableNumber > 0) ? 1 : -1;
     }
     result.addClause(resultClause)
   }
   return result;
 }
 
-SatGenerator.additionSat = function(numA, numB){
+SatGenerator.additionSat = function(numA: number, numB: number){
   if (numA <= 0) {
     numA = 1;
   }
@@ -170,8 +175,6 @@ SatGenerator.additionSat = function(numA, numB){
     numB = 1;
   }
 
-  numA = parseInt(numA);
-  numB = parseInt(numB);
   let numALen = Math.floor(Math.log(numA) / Math.log(2)) + 1;
   let numBLen = Math.floor(Math.log(numB) / Math.log(2)) + 1;
   let resultLen = Math.max(numALen, numBLen) + 1;
@@ -180,7 +183,7 @@ SatGenerator.additionSat = function(numA, numB){
   let carryIdStart = numBIdStart + Math.max(numALen, numBLen);
   let result = [];
 
-  function carryClause(carryId, oldCarryId, inputAId, inputBId){
+  function carryClause(carryId: number, oldCarryId: number, inputAId: number, inputBId: number){
     let result = [];
     result.push([-inputAId, -oldCarryId, carryId]);
     result.push([-inputBId, -oldCarryId, carryId]);
@@ -191,7 +194,7 @@ SatGenerator.additionSat = function(numA, numB){
     return result;
   }
 
-  function resultClause(resultId, carryId, inputAId, inputBId){
+  function resultClause(resultId: number, carryId: number, inputAId: number, inputBId: number){
     let result = [];
     result.push([inputAId, inputBId, resultId, -carryId]);
     result.push([inputAId, inputBId, -resultId, carryId]);
