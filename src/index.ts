@@ -1,18 +1,8 @@
-/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
-function openNav() {
-  document.getElementById("puzzleSelector").style.width = "250px";
-  document.getElementById("main").style.marginLeft = "250px";
-}
-
-/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
-function closeNav() {
-  document.getElementById("puzzleSelector").style.width = "0";
-  document.getElementById("main").style.marginLeft = "0";
-}
-
 function getViewClass() {
-  let beautyRadioChecked = document.getElementById("beauty").checked == true;
-  let compactRadioChecked = document.getElementById("compact").checked == true;
+  let beautyRadio = <HTMLInputElement> document.getElementById("beauty");
+  let compactRadio = <HTMLInputElement> document.getElementById("compact");
+  let beautyRadioChecked = (beautyRadio.checked == true);
+  let compactRadioChecked = (compactRadio.checked == true);
   let gameViewClass: any;
   if (beautyRadioChecked){
     gameViewClass = PrettyGameView
@@ -25,9 +15,17 @@ function getViewClass() {
 }
 
 function getFormular() {
-  let factoringRadioChecked = document.getElementById("fact").checked == true;
-  let randomRadioChecked = document.getElementById("rand").checked == true;
-  let additionRadioChecked = document.getElementById("add").checked == true;
+  let factoringRadio = <HTMLInputElement> document.getElementById("fact");
+  let randomRadio = <HTMLInputElement> document.getElementById("rand");
+  let additionRadio = <HTMLInputElement> document.getElementById("add");
+  let additionInput1 = <HTMLInputElement> document.getElementById("additionNumber1");
+  let additionInput2 = <HTMLInputElement> document.getElementById("additionNumber2");
+
+  let factoringRadioChecked = (factoringRadio.checked == true);
+  let randomRadioChecked = (randomRadio.checked == true);
+  let additionRadioChecked = (additionRadio.checked == true);
+  let additionNumber1 = parseInt(additionInput1.value);
+  let additionNumber2 = parseInt(additionInput2.value);
 
   let formular: SatFormular;
 
@@ -37,17 +35,18 @@ function getFormular() {
     formular = SatGenerator.random3Sat(10, 20)
   } else if (additionRadioChecked){
     formular = SatGenerator.additionSat(
-      document.getElementById("additionNumber1").value,
-      document.getElementById("additionNumber2").value)
+      additionNumber1,
+      additionNumber2)
   } else {
-    return null;
+    alert("Huh?");
+    formular = SatGenerator.random3Sat(10, 20)
   }
   return formular;
 }
 
 function displayQuiz() {
   // Remove all content from puzzleBox
-  let myNode = document.getElementById("puzzleBox");
+  let myNode = <HTMLElement> document.getElementById("puzzleBox");
   while (myNode.firstChild) {
     myNode.removeChild(myNode.firstChild);
   }
@@ -57,21 +56,4 @@ function displayQuiz() {
 
 
   let gameController = new GameController(myNode, gameViewClass, GameModel, formular)
-}
-
-function toggleInvisDiv(activatedRadio){
-  let radios = document.getElementsByName(activatedRadio.name);
-  for (let i = 0; i < radios.length; ++i){
-    let radioToggleDiv = document.getElementById(radios[i].id + "Inputs");
-    if (radios[i].checked){
-      if (radioToggleDiv !== null){
-        let style = window.getComputedStyle(radioToggleDiv);
-        radioToggleDiv.style.height = style.getPropertyValue('max-height');
-      }
-    } else {
-      if (radioToggleDiv !== null){
-        radioToggleDiv.style.height = 0;
-      }
-    }
-  }
 }
