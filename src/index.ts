@@ -10,16 +10,10 @@ function closeNav() {
   document.getElementById("main").style.marginLeft = "0";
 }
 
-function displayQuiz() {
-  // Remove all content from puzzleBox
-  let myNode = document.getElementById("puzzleBox");
-  while (myNode.firstChild) {
-    myNode.removeChild(myNode.firstChild);
-  }
-
+function getViewClass() {
   let beautyRadioChecked = document.getElementById("beauty").checked == true;
   let compactRadioChecked = document.getElementById("compact").checked == true;
-  let gameViewClass = []
+  let gameViewClass: any;
   if (beautyRadioChecked){
     gameViewClass = PrettyGameView
   } else if (compactRadioChecked){
@@ -27,7 +21,10 @@ function displayQuiz() {
   } else {
     alert("huh?")
   }
+  return gameViewClass;
+}
 
+function getFormular() {
   let factoringRadioChecked = document.getElementById("fact").checked == true;
   let randomRadioChecked = document.getElementById("rand").checked == true;
   let additionRadioChecked = document.getElementById("add").checked == true;
@@ -43,8 +40,21 @@ function displayQuiz() {
       document.getElementById("additionNumber1").value,
       document.getElementById("additionNumber2").value)
   } else {
-    alert("huh?")
+    return null;
   }
+  return formular;
+}
+
+function displayQuiz() {
+  // Remove all content from puzzleBox
+  let myNode = document.getElementById("puzzleBox");
+  while (myNode.firstChild) {
+    myNode.removeChild(myNode.firstChild);
+  }
+
+  let gameViewClass = getViewClass();
+  let formular = getFormular();
+
 
   let gameController = new GameController(myNode, gameViewClass, GameModel, formular)
 }

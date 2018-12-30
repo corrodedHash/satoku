@@ -1,5 +1,7 @@
-import { BaseGameView } from "./baseGameView"
 class PrettyGameView extends BaseGameView{
+  getCssClasses() {
+    return PrettyGameView.cssClasses;
+  }
   formular: any;
   clickCallback: any;
   mainNode: any;

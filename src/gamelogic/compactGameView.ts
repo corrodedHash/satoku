@@ -1,5 +1,7 @@
-import { BaseGameView } from "./baseGameView"
 class CompactGameView extends BaseGameView{
+    getCssClasses() {
+      return CompactGameView.cssClasses;
+    }
   formular: any;
   clickCallback: any;
   mainNode: any;
