@@ -5,30 +5,7 @@ class SatGenerator {
   static factoringSat: () => SatFormular;
   static additionSat: (numA: number, numB: number) => SatFormular;
   // Turns a 2 dimensional clause into a SatFormular object
-  static arrayToSatFormular(array: Array<Array<number>>){
-    let result = new SatFormular()
-    for (let i = 0; i < array.length; i++){
-      let resultClause: Array<number> = []
-      let useClause = true
-      for (let j = 0; j < array[i].length; j++){
-        let variableNumber = Math.abs(array[i][j]) - 1
-        let variableSign = array[i][j] > 0
-        // SatFormular Objects cannot hold tautologic clauses (A, -A)
-        // So discard that clause
-        if (!(variableNumber in resultClause)
-          || (resultClause[variableNumber] > 0) == variableSign){
-          resultClause[variableNumber] = variableSign ? 1 : -1;
-        } else {
-          useClause = false
-          break
-        }
-      }
-      if (useClause){
-        result.addClause(resultClause)
-      }
-    }
-    return result;
-  }
+  static arrayToSatFormular: (array: Array<Array<number>>) => SatFormular;
 }
 
 // Fisher-Yates shuffle
@@ -163,6 +140,31 @@ SatGenerator.factoringSat = function (){
       resultClause[Math.abs(variableNumber) - 1] = (variableNumber > 0) ? 1 : -1;
     }
     result.addClause(resultClause)
+  }
+  return result;
+}
+
+SatGenerator.arrayToSatFormular = function(array: Array<Array<number>>){
+  let result = new SatFormular()
+  for (let i = 0; i < array.length; i++){
+    let resultClause: Array<number> = []
+    let useClause = true
+    for (let j = 0; j < array[i].length; j++){
+      let variableNumber = Math.abs(array[i][j]) - 1
+      let variableSign = array[i][j] > 0
+      // SatFormular Objects cannot hold tautologic clauses (A, -A)
+      // So discard that clause
+      if (!(variableNumber in resultClause)
+        || (resultClause[variableNumber] > 0) == variableSign){
+        resultClause[variableNumber] = variableSign ? 1 : -1;
+      } else {
+        useClause = false
+        break
+      }
+    }
+    if (useClause){
+      result.addClause(resultClause)
+    }
   }
   return result;
 }
