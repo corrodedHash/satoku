@@ -1,4 +1,4 @@
-class SatFormular {
+export default class SatFormular {
   variableUses: Array<Array<number>> = [];
   clauses: Array<Array<number>> = [];
 

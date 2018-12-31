@@ -1,4 +1,5 @@
-class SatGenerator {
+import SatFormular from './satFormular'
+export default class SatGenerator {
   static randomAssign: (count: number) => number;
   static generateModel: (size: number) => number[];
   static random3Sat: (varCount: number, clauseCount: number) => any;

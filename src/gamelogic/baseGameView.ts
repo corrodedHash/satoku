@@ -1,4 +1,4 @@
-abstract class BaseGameView {
+ export default abstract class BaseGameView {
     mainNode: any;
     abstract getCssClasses(): any;
 

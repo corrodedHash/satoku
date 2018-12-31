@@ -1,4 +1,6 @@
-class GameModel {
+import SatFormular from 'sat/satFormular'
+
+export default class GameModel {
   variableListeners: Array<(clauseIndex: number, variableNumber: number, state: boolean) => void >= [];
   clauseListeners: Array<(clauseIndex: number, state: boolean) => void >= [];
   formular: SatFormular;

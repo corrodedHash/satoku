@@ -1,4 +1,6 @@
-class PrettyGameView extends BaseGameView{
+import  BaseGameView  from './baseGameView'
+import SatFormular from 'sat/satFormular'
+export default class PrettyGameView extends BaseGameView{
   getCssClasses() {
     return PrettyGameView.cssClasses;
   }

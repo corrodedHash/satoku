@@ -1,3 +1,9 @@
+import  PrettyGameView  from 'gamelogic/prettyGameView'
+import  CompactGameView  from 'gamelogic/compactGameView'
+import GameController from 'gamelogic/gameController'
+import GameModel from 'gamelogic/gameModel'
+import SatGenerator from 'sat/satGenerator'
+import SatFormular from 'sat/satFormular'
 function getViewClass() {
   let beautyRadio = <HTMLInputElement> document.getElementById("beauty");
   let compactRadio = <HTMLInputElement> document.getElementById("compact");
@@ -44,7 +50,7 @@ function getFormular() {
   return formular;
 }
 
-function displayQuiz() {
+export function displayQuiz() {
   // Remove all content from puzzleBox
   let myNode = <HTMLElement> document.getElementById("puzzleBox");
   while (myNode.firstChild) {

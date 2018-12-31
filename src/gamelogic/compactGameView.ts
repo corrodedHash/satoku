@@ -1,4 +1,6 @@
-class CompactGameView extends BaseGameView{
+import BaseGameView from './baseGameView'
+import SatFormular from 'sat/satFormular'
+export default class CompactGameView extends BaseGameView{
     getCssClasses() {
       return CompactGameView.cssClasses;
     }

@@ -1,11 +1,26 @@
-  "name": "satouku",
+{
+  "name": "satouken",
   "version": "1.0.0",
-  "description": "Browsergame",
+  "description": "",
   "main": "lib/index.js",
+  "directories": {
+    "lib": "lib"
+  },
   "scripts": {
-    "test": "test"
-    "build": "tsc"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/corrodedHash/satouken.git"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/corrodedHash/satouken/issues"
+  },
+  "homepage": "https://github.com/corrodedHash/satouken#readme",
+  "dependencies": {
+    "angular": "^1.7.5",
+    "requirejs": "^2.3.6"
+  }
 }

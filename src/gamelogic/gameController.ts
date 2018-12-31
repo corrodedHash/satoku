@@ -1,4 +1,5 @@
-class GameController {
+import SatFormular from 'sat/satFormular'
+export default class GameController {
   formular: SatFormular;
   view: any;
   model: any;

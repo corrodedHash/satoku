@@ -7,17 +7,17 @@
     <link rel="stylesheet" href="css/compact.css" />
     <link rel="stylesheet" href="css/index.css" />
 
-    <script src="lib/sat/satFormular.js"></script>
-    <script src="lib/sat/satGenerator.js"></script>
-    <script src="lib/gamelogic/gameModel.js"></script>
-    <script src="lib/gamelogic/baseGameView.js"></script>
-    <script src="lib/gamelogic/compactGameView.js"></script>
-    <script src="lib/gamelogic/prettyGameView.js"></script>
-    <script src="lib/gamelogic/gameController.js"></script>
-    <script src="lib/index.js"></script>
-    <script src="formatting.js"></script>
+    <script data-main="lib/index.js" src="node_modules/requirejs/require.js"> </script>
+  <script> 
+    let displayQuiz;
+    require(["index"], (index) => {displayQuiz = index.displayQuiz });
+    function hihi () {
+      document.getElementById("generateButton").onclick = () => {displayQuiz()};
+    }
+  </script>
+    <script src="formatting.js"> </script>
   </head>
-  <body onload="openNav()">
+  <body onload="openNav(); hihi();">
     <div id="puzzleSelector">
       <label class="fancyRadio">
         <input id="beauty" type="radio" name="DisplayMode" checked="checked">
@@ -48,7 +48,7 @@
         <input id="additionNumber2" type="number" value="30">
       </div>
 
-      <button onclick="closeNav();displayQuiz()">Generate</button>
+      <button id="generateButton">Generate</button>
       <button onclick="closeNav()">Abort</button>
     </div>
     <div id="main">
