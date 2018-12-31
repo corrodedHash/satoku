@@ -11,7 +11,8 @@ export default class GameModel {
     for (var i = 0; i < this.formular.variableUses.length; i++) {
       this.assignment.push(true)
     }
-  }
+  };
+
   clauseTrue(clauseIndex: number): boolean {
     let clause = this.formular.clauses[clauseIndex];
     for (let variableNumber in clause) {
@@ -20,7 +21,8 @@ export default class GameModel {
       }
     }
     return false;
-  }
+  };
+
   flipVariableAssignment(variableNumber: number): void {
     this.assignment[variableNumber] = !(this.assignment[variableNumber]);
 
@@ -34,18 +36,20 @@ export default class GameModel {
 
       this.notifyClauseListeners(clauseIndex, this.clauseTrue(clauseIndex));
     }
-  }
+  };
+
   notifyClauseListeners(clauseIndex: number, state: boolean) {
     for (let j = 0; j < this.variableListeners.length; j++) {
       this.clauseListeners[j](clauseIndex, state);
     }
-  }
+  };
+
   notifyVariableListeners(clauseIndex: number, variableNumber: number,
                           state: boolean) {
     for (let j = 0; j < this.variableListeners.length; j++) {
       this.variableListeners[j](clauseIndex, variableNumber, state);
     }
-  }
+  };
 
   updateAll() {
     for (let clauseIndex = 0; clauseIndex < this.formular.clauses.length;
@@ -58,7 +62,7 @@ export default class GameModel {
       }
       this.notifyClauseListeners(clauseIndex, this.clauseTrue(clauseIndex))
     }
-  }
+  };
 
   isWon() {
     for (var i = 0; i < this.formular.clauses.length; i++) {
@@ -67,5 +71,5 @@ export default class GameModel {
       }
     }
     return true;
-  }
-}
+  };
+};

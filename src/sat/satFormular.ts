@@ -10,7 +10,7 @@ export default class SatFormular {
       }
       this.variableUses[variable].push(this.clauses.length - 1)
     }
-  }
+  };
 
   toDimacs() {
     let resultString = ""
@@ -25,5 +25,5 @@ export default class SatFormular {
       }
       resultString += "0\n"
     }
-  }
+  };
 }

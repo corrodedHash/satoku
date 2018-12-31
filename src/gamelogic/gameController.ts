@@ -17,12 +17,12 @@ export default class GameController {
     this.model.clauseListeners.push(this.view.setClause.bind(this.view));
 
     this.model.updateAll();
-  }
+  };
 
   clickHandler(variableNumber: number) {
     this.model.flipVariableAssignment(variableNumber);
     if (this.model.isWon()) {
       alert("You won!");
     }
-  }
-}
+  };
+};

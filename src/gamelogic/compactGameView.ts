@@ -23,7 +23,7 @@ export default class CompactGameView extends BaseGameView {
     this.clickCallback = clickCallback;
     this.mainNode = this.generate();
     parentNode.appendChild(this.mainNode);
-  }
+  };
 
   createNode(clauseIndex: number, variableNumber: number, positive: boolean) {
     var node = document.createElement("div");
@@ -40,7 +40,7 @@ export default class CompactGameView extends BaseGameView {
     node.innerHTML = id.toString();
     node.onclick = () => { this.clickCallback(variableNumber) };
     return node;
-  }
+  };
 
   createBox(clause: Array<number>, clauseIndex: number) {
     var box = document.createElement("div");
@@ -52,7 +52,7 @@ export default class CompactGameView extends BaseGameView {
       box.appendChild(currentVariable);
     }
     return box;
-  }
+  };
 
   generate() {
     let puzzleDiv = document.createElement("div");
@@ -61,8 +61,8 @@ export default class CompactGameView extends BaseGameView {
       puzzleDiv.appendChild(this.createBox(this.formular.clauses[i], i));
     }
     return puzzleDiv;
-  }
-}
+  };
+};
 
 CompactGameView.cssClasses = {
   node : "compactNode",
@@ -74,4 +74,4 @@ CompactGameView.cssClasses = {
   nodeBox : "compactNodeBox",
   nodeBoxActive : "compactNodeBoxActive",
   nodeBoxInactive : "compactNodeBoxInactive"
-}
+};

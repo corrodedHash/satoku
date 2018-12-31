@@ -12,7 +12,7 @@ export default abstract class BaseGameView {
       clauseNode.classList.remove(this.getCssClasses().nodeBoxActive);
       clauseNode.classList.add(this.getCssClasses().nodeBoxInactive);
     }
-  }
+  };
 
   setVariable(clauseIndex: number, variableNumber: number, positive: boolean) {
     let clauseNode = this.mainNode.ownerDocument.getElementById(
@@ -24,5 +24,5 @@ export default abstract class BaseGameView {
       clauseNode.classList.remove(this.getCssClasses().nodeActive);
       clauseNode.classList.add(this.getCssClasses().nodeInactive);
     }
-  }
-}
+  };
+};

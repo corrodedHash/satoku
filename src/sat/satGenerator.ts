@@ -7,7 +7,7 @@ export default class SatGenerator {
   static additionSat: (numA: number, numB: number) => SatFormular;
   // Turns a 2 dimensional clause into a SatFormular object
   static arrayToSatFormular: (array: Array<Array<number>>) => SatFormular;
-}
+};
 
 // Fisher-Yates shuffle
 function shuffle(array: Array<any>) {
@@ -27,11 +27,11 @@ function shuffle(array: Array<any>) {
   }
 
   return array;
-}
+};
 
 function getRandom(min: number, max: number) {
   return Math.floor(Math.random() * (max - min)) + min;
-}
+};
 
 // Returns a random non-zero value <= count
 SatGenerator.randomAssign =
@@ -41,7 +41,7 @@ SatGenerator.randomAssign =
     result += 1;
   }
   return result;
-}
+};
 
     SatGenerator.generateModel =
         function(size: number) {
@@ -50,7 +50,7 @@ SatGenerator.randomAssign =
     result.push(SatGenerator.randomAssign(1));
   }
   return result;
-}
+};
 
         SatGenerator.random3Sat =
             function(varCount: number, clauseCount: number) {
@@ -75,10 +75,9 @@ SatGenerator.randomAssign =
   }
   result = shuffle(result);
   return SatGenerator.arrayToSatFormular(result);
-}
+};
 
-            SatGenerator.factoringSat =
-                function() {
+            SatGenerator.factoringSat = function() {
   let satList = [
     [ 2, 3, 4 ],
     [ 6, 7, 8 ],
@@ -374,10 +373,10 @@ SatGenerator.randomAssign =
     result.addClause(resultClause)
   }
   return result;
-}
+};
 
-                SatGenerator.arrayToSatFormular =
-                    function(array: Array<Array<number>>) {
+SatGenerator.arrayToSatFormular =
+    function(array: Array<Array<number>>) {
   let result = new SatFormular()
   for (let i = 0; i < array.length; i++) {
     let resultClause: Array<number> = [];
@@ -401,10 +400,9 @@ SatGenerator.randomAssign =
     }
   }
   return result;
-}
+};
 
-                    SatGenerator.additionSat = function(numA: number,
-                                                        numB: number) {
+    SatGenerator.additionSat = function(numA: number, numB: number) {
   if (numA <= 0) {
     numA = 1;
   }
@@ -477,4 +475,4 @@ SatGenerator.randomAssign =
   // console.log("Carry ID Start: " + carryIdStart);
 
   return SatGenerator.arrayToSatFormular(result);
-}
+};
