@@ -2,10 +2,10 @@ export default class SatFormular {
   variableUses: Array<Array<number>> = [];
   clauses: Array<Array<number>> = [];
 
-  addClause (clause: Array<number>) {
+  addClause(clause: Array<number>) {
     this.clauses.push(clause)
-    for (let variable in clause){
-      if (!(variable in this.variableUses)){
+    for (let variable in clause) {
+      if (!(variable in this.variableUses)) {
         this.variableUses[variable] = []
       }
       this.variableUses[variable].push(this.clauses.length - 1)
@@ -16,8 +16,9 @@ export default class SatFormular {
     let resultString = ""
     resultString = "p cnf " + this.variableUses.length.toString();
     resultString += " " + this.clauses.length.toString() + "\n";
-    for (let clauseIndex = 0; clauseIndex < this.clauses.length; clauseIndex++){
-      for (let variableNumber in this.clauses[clauseIndex]){
+    for (let clauseIndex = 0; clauseIndex < this.clauses.length;
+         clauseIndex++) {
+      for (let variableNumber in this.clauses[clauseIndex]) {
         resultString += this.clauses[clauseIndex][variableNumber] ? "" : "-";
         resultString += ((parseInt(variableNumber)) + 1)
         resultString += " "
@@ -26,6 +27,3 @@ export default class SatFormular {
     }
   }
 }
-
-
-

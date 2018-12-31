@@ -2,58 +2,82 @@
 <html lang="en">
   <head>
     <title>Satoku</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="css/beauty.css" />
     <link rel="stylesheet" href="css/compact.css" />
     <link rel="stylesheet" href="css/index.css" />
 
-    <script data-main="lib/index.js" src="node_modules/requirejs/require.js"> </script>
-  <script> 
-    let displayQuiz;
-    require(["index"], (index) => {displayQuiz = index.displayQuiz });
-    function hihi () {
-      document.getElementById("generateButton").onclick = () => {displayQuiz()};
-    }
-  </script>
-    <script src="formatting.js"> </script>
+    <script
+      data-main="lib/index.js"
+      src="node_modules/requirejs/require.js"
+    ></script>
+    <script>
+      let displayQuiz;
+      require(['index'], (index) => {
+        displayQuiz = index.displayQuiz;
+      });
+      function hihi() {
+        document.getElementById('generateButton').onclick = () => {
+          displayQuiz();
+        };
+      }
+    </script>
+    <script src="formatting.js"></script>
   </head>
   <body onload="openNav(); hihi();">
     <div id="puzzleSelector">
       <label class="fancyRadio">
-        <input id="beauty" type="radio" name="DisplayMode" checked="checked">
+        <input id="beauty" type="radio" name="DisplayMode" checked="checked" />
         <span class="checkmark">Beautiful</span>
       </label>
 
       <label class="fancyRadio">
-        <input id="compact" type="radio" name="DisplayMode">
+        <input id="compact" type="radio" name="DisplayMode" />
         <span class="checkmark">Compact</span>
       </label>
 
       <label class="fancyRadio">
-        <input id="fact" onchange="toggleInvisDiv(this)" type="radio" name="SatGenerator" checked="checked">
+        <input
+          id="fact"
+          onchange="toggleInvisDiv(this)"
+          type="radio"
+          name="SatGenerator"
+          checked="checked"
+        />
         <span class="checkmark">Factoring</span>
       </label>
 
       <label class="fancyRadio">
-        <input id="rand" onchange="toggleInvisDiv(this)" type="radio" name="SatGenerator">
+        <input
+          id="rand"
+          onchange="toggleInvisDiv(this)"
+          type="radio"
+          name="SatGenerator"
+        />
         <span class="checkmark">Random</span>
       </label>
 
       <label class="fancyRadio">
-        <input id="add" onchange="toggleInvisDiv(this)" type="radio" name="SatGenerator">
+        <input
+          id="add"
+          onchange="toggleInvisDiv(this)"
+          type="radio"
+          name="SatGenerator"
+        />
         <span class="checkmark">Addition</span>
       </label>
       <div id="addInputs">
-        <input id="additionNumber1" type="number" value="20"><br>
-        <input id="additionNumber2" type="number" value="30">
+        <input id="additionNumber1" type="number" value="20" /><br />
+        <input id="additionNumber2" type="number" value="30" />
       </div>
 
       <button id="generateButton">Generate</button>
       <button onclick="closeNav()">Abort</button>
     </div>
     <div id="main">
-      <input type="button" onclick="openNav()" value="Generation Menu"><br>
-      <div id="puzzleBox"></div><br>
+      <input type="button" onclick="openNav()" value="Generation Menu" /><br />
+      <div id="puzzleBox"></div>
+      <br />
       <div id="dimacsBox" style="display: none"></div>
     </div>
   </body>
