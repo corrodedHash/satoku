@@ -1,8 +1,8 @@
 export default class SatFormular {
   variableUses: Array<Array<number>> = [];
-  clauses: Array<Array<number>> = [];
+  clauses: Array<Array<boolean>> = [];
 
-  addClause(clause: Array<number>) {
+  addClause(clause: Array<boolean>) {
     this.clauses.push(clause)
     for (let variable in clause) {
       if (!(variable in this.variableUses)) {
@@ -19,8 +19,8 @@ export default class SatFormular {
     for (let clause of this.clauses) {
       for (let variableNumber in clause) {
         resultString += clause[variableNumber] ? "" : "-";
-        resultString += ((parseInt(variableNumber)) + 1)
-        resultString += " "
+        resultString += (parseInt(variableNumber)) + 1;
+        resultString += " ";
       }
       resultString += "0\n"
     }

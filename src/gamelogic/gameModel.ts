@@ -3,7 +3,7 @@ import SatFormular from 'sat/satFormular'
 export default class GameModel {
   variableListeners: Array < (clauseIndex: number, variableNumber: number,
                               state: boolean) => void >= [];
-  clauseListeners: Array < (clauseIndex: number, state: boolean) => void > = [];
+  clauseListeners: Array<(clauseIndex: number, state: boolean) => void> = [];
   formular: SatFormular;
   assignment: Array<boolean> = [];
   constructor(formular: SatFormular) {
@@ -16,7 +16,7 @@ export default class GameModel {
   clauseTrue(clauseIndex: number): boolean {
     let clause = this.formular.clauses[clauseIndex];
     for (let variableNumber in clause) {
-      if (this.assignment[variableNumber] == (clause[variableNumber] > 0)) {
+      if (this.assignment[variableNumber] == clause[variableNumber]) {
         return true;
       }
     }
@@ -32,7 +32,7 @@ export default class GameModel {
       this.notifyVariableListeners(
           clauseIndex, variableNumber,
           this.assignment[variableNumber] ==
-              (this.formular.clauses[clauseIndex][variableNumber] > 0));
+              this.formular.clauses[clauseIndex][variableNumber]);
 
       this.notifyClauseListeners(clauseIndex, this.clauseTrue(clauseIndex));
     }
@@ -58,7 +58,7 @@ export default class GameModel {
         this.notifyVariableListeners(
             clauseIndex, parseInt(variableNumber),
             this.assignment[variableNumber] ==
-                (this.formular.clauses[clauseIndex][variableNumber] > 0))
+                this.formular.clauses[clauseIndex][variableNumber])
       }
       this.notifyClauseListeners(clauseIndex, this.clauseTrue(clauseIndex))
     }

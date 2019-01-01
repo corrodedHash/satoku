@@ -360,12 +360,12 @@ SatGenerator.factoringSat = function() {
 
   let result = new SatFormular()
   for (let clause = 0; clause < satList.length; clause++) {
-    let resultClause: Array<number> = [];
+    let resultClause: Array<boolean> = [];
     for (let variableIndex = 0; variableIndex < satList[clause].length;
          variableIndex++) {
       let variableNumber = satList[clause][variableIndex]
       resultClause[Math.abs(variableNumber) - 1] =
-          (variableNumber > 0) ? 1 : -1;
+          (variableNumber > 0) ? true : false;
     }
     result.addClause(resultClause)
   }
@@ -375,21 +375,19 @@ SatGenerator.factoringSat = function() {
 function arrayToSatFormular(array: Array<Array<number>>) {
   let result = new SatFormular()
   for (let clause of array) {
-    let resultClause: Array<number> = [];
+    let resultClause: Array<boolean> = [];
     let useClause = true;
     for (let variableNumber of clause) {
       let variableIndex = Math.abs(variableNumber) - 1
       let variableSign = variableNumber > 0
       // SatFormular Objects cannot hold tautologic clauses (A, -A)
       // So discard that clause
-      if (!(variableIndex in resultClause) ||
-          (resultClause[variableIndex] > 0) == variableSign) {
-        resultClause[variableIndex] = variableSign ? 1 : -1;
-      }
-      else {
+      if ((variableIndex in resultClause) && 
+          resultClause[variableIndex] != variableSign) {
         useClause = false
         break
       }
+      resultClause[variableIndex] = variableSign;
     }
     if (useClause) {
       result.addClause(resultClause)
