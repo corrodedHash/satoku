@@ -48,6 +48,30 @@ function generateModel(size: number) {
   return result;
 };
 
+function arrayToSatFormular(array: Array<Array<number>>) {
+  let result = new SatFormular()
+  for (let clause of array) {
+    let resultClause: Array<boolean> = [];
+    let useClause = true;
+    for (let variableNumber of clause) {
+      let variableIndex = Math.abs(variableNumber) - 1
+      let variableSign = variableNumber > 0
+      // SatFormular Objects cannot hold tautologic clauses (A, -A)
+      // So discard that clause
+      if ((variableIndex in resultClause) && 
+          resultClause[variableIndex] != variableSign) {
+        useClause = false
+        break
+      }
+      resultClause[variableIndex] = variableSign;
+    }
+    if (useClause) {
+      result.addClause(resultClause)
+    }
+  }
+  return result;
+};
+
 SatGenerator.random3Sat = function(varCount: number, clauseCount: number) {
   let result: Array<Array<number>> = [];
   let model = generateModel(varCount);
@@ -372,30 +396,6 @@ SatGenerator.factoringSat = function() {
   return result;
 };
 
-function arrayToSatFormular(array: Array<Array<number>>) {
-  let result = new SatFormular()
-  for (let clause of array) {
-    let resultClause: Array<boolean> = [];
-    let useClause = true;
-    for (let variableNumber of clause) {
-      let variableIndex = Math.abs(variableNumber) - 1
-      let variableSign = variableNumber > 0
-      // SatFormular Objects cannot hold tautologic clauses (A, -A)
-      // So discard that clause
-      if ((variableIndex in resultClause) && 
-          resultClause[variableIndex] != variableSign) {
-        useClause = false
-        break
-      }
-      resultClause[variableIndex] = variableSign;
-    }
-    if (useClause) {
-      result.addClause(resultClause)
-    }
-  }
-  return result;
-};
-
 SatGenerator.additionSat = function(numA: number, numB: number) {
   if (numA <= 0) {
     numA = 1;
@@ -429,12 +429,12 @@ SatGenerator.additionSat = function(numA: number, numB: number) {
     let result = [];
     result.push([ inputAId, inputBId, resultId, -carryId ]);
     result.push([ inputAId, inputBId, -resultId, carryId ]);
-    result.push([ -inputAId, -inputBId, resultId, -carryId ]);
-    result.push([ -inputAId, -inputBId, -resultId, carryId ]);
     result.push([ inputAId, -inputBId, resultId, carryId ]);
     result.push([ inputAId, -inputBId, -resultId, -carryId ]);
     result.push([ -inputAId, inputBId, resultId, carryId ]);
     result.push([ -inputAId, inputBId, -resultId, -carryId ]);
+    result.push([ -inputAId, -inputBId, resultId, -carryId ]);
+    result.push([ -inputAId, -inputBId, -resultId, carryId ]);
     return result;
   }
 
@@ -463,10 +463,6 @@ SatGenerator.additionSat = function(numA: number, numB: number) {
       result.push([ -(numBIdStart + Math.max(numALen, numBLen) - i) ]);
     }
   }
-
-  // console.log("NumA ID Start: " + numAIdStart);
-  // console.log("NumB ID Start: " + numBIdStart);
-  // console.log("Carry ID Start: " + carryIdStart);
 
   return arrayToSatFormular(result);
 };

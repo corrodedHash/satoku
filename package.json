@@ -21,6 +21,8 @@
   "homepage": "https://github.com/corrodedHash/satouken#readme",
   "dependencies": {
     "angular": "^1.7.5",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
     "requirejs": "^2.3.6"
   }
 }
