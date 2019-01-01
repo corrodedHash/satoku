@@ -1,12 +1,8 @@
 import SatFormular from './satFormular'
 export default class SatGenerator {
-  static randomAssign: (count: number) => number;
-  static generateModel: (size: number) => number[];
   static random3Sat: (varCount: number, clauseCount: number) => any;
   static factoringSat: () => SatFormular;
   static additionSat: (numA: number, numB: number) => SatFormular;
-  // Turns a 2 dimensional clause into a SatFormular object
-  static arrayToSatFormular: (array: Array<Array<number>>) => SatFormular;
 };
 
 // Fisher-Yates shuffle
@@ -29,55 +25,56 @@ function shuffle(array: Array<any>) {
   return array;
 };
 
-function getRandom(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min)) + min;
+//Range [min, max]
+function randomInt(min: number, max: number) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function randomSign() {
+  return randomInt(0, 1) ? 1 : -1;
+}
+
+function randomAssign(count: number) {
+  return randomSign() * randomInt(1, count);
 };
 
-// Returns a random non-zero value <= count
-SatGenerator.randomAssign =
-    function(count: number) {
-  let result = Math.floor(Math.random() * 2 * count) - count;
-  if (result >= 0) {
-    result += 1;
-  }
-  return result;
-};
-
-    SatGenerator.generateModel =
-        function(size: number) {
+function generateModel(size: number) {
   let result = [];
   for (let i = 0; i < size; ++i) {
-    result.push(SatGenerator.randomAssign(1));
+    result.push(randomAssign(1));
   }
   return result;
 };
 
-        SatGenerator.random3Sat =
-            function(varCount: number, clauseCount: number) {
-  let result = [];
-  let model = SatGenerator.generateModel(varCount);
+SatGenerator.random3Sat = function(varCount: number, clauseCount: number) {
+  let result: Array<Array<number>> = [];
+  let model = generateModel(varCount);
+
+  function getClause(id: number){
+    let clause = [ model[id] * (id + 1), 0, 0 ];
+    for (let j = 1; j < clause.length; ++j) {
+      clause[j] = randomAssign(varCount);
+    }
+    clause = shuffle(clause);
+    return clause;
+  }
+
   for (let i = 0; i < varCount; ++i) {
-    let clause = [ model[i] * (i + 1), 0, 0 ];
-    for (let j = 1; j < clause.length; ++j) {
-      clause[j] = SatGenerator.randomAssign(varCount);
-    }
-    clause = shuffle(clause);
-    result.push(clause);
+    result.push(getClause(i));
   }
+
   for (let i = varCount; i < clauseCount; ++i) {
-    let curVar = getRandom(0, varCount - 1);
-    let clause = [ model[curVar] * (curVar + 1), 0, 0 ];
-    for (let j = 1; j < clause.length; ++j) {
-      clause[j] = SatGenerator.randomAssign(varCount);
-    }
-    clause = shuffle(clause);
-    result.push(clause);
+    let curVar = randomInt(0, varCount - 1);
+    result.push(getClause(curVar));
   }
+
   result = shuffle(result);
-  return SatGenerator.arrayToSatFormular(result);
+  return arrayToSatFormular(result);
 };
 
-            SatGenerator.factoringSat = function() {
+SatGenerator.factoringSat = function() {
   let satList = [
     [ 2, 3, 4 ],
     [ 6, 7, 8 ],
@@ -375,20 +372,19 @@ SatGenerator.randomAssign =
   return result;
 };
 
-SatGenerator.arrayToSatFormular =
-    function(array: Array<Array<number>>) {
+function arrayToSatFormular(array: Array<Array<number>>) {
   let result = new SatFormular()
-  for (let i = 0; i < array.length; i++) {
+  for (let clause of array) {
     let resultClause: Array<number> = [];
     let useClause = true;
-    for (let j = 0; j < array[i].length; j++) {
-      let variableNumber = Math.abs(array[i][j]) - 1
-      let variableSign = array[i][j] > 0
+    for (let variableNumber of clause) {
+      let variableIndex = Math.abs(variableNumber) - 1
+      let variableSign = variableNumber > 0
       // SatFormular Objects cannot hold tautologic clauses (A, -A)
       // So discard that clause
-      if (!(variableNumber in resultClause) ||
-          (resultClause[variableNumber] > 0) == variableSign) {
-        resultClause[variableNumber] = variableSign ? 1 : -1;
+      if (!(variableIndex in resultClause) ||
+          (resultClause[variableIndex] > 0) == variableSign) {
+        resultClause[variableIndex] = variableSign ? 1 : -1;
       }
       else {
         useClause = false
@@ -402,7 +398,7 @@ SatGenerator.arrayToSatFormular =
   return result;
 };
 
-    SatGenerator.additionSat = function(numA: number, numB: number) {
+SatGenerator.additionSat = function(numA: number, numB: number) {
   if (numA <= 0) {
     numA = 1;
   }
@@ -474,5 +470,5 @@ SatGenerator.arrayToSatFormular =
   // console.log("NumB ID Start: " + numBIdStart);
   // console.log("Carry ID Start: " + carryIdStart);
 
-  return SatGenerator.arrayToSatFormular(result);
+  return arrayToSatFormular(result);
 };

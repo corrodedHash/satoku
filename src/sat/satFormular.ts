@@ -16,10 +16,9 @@ export default class SatFormular {
     let resultString = ""
     resultString = "p cnf " + this.variableUses.length.toString();
     resultString += " " + this.clauses.length.toString() + "\n";
-    for (let clauseIndex = 0; clauseIndex < this.clauses.length;
-         clauseIndex++) {
-      for (let variableNumber in this.clauses[clauseIndex]) {
-        resultString += this.clauses[clauseIndex][variableNumber] ? "" : "-";
+    for (let clause of this.clauses) {
+      for (let variableNumber in clause) {
+        resultString += clause[variableNumber] ? "" : "-";
         resultString += ((parseInt(variableNumber)) + 1)
         resultString += " "
       }
