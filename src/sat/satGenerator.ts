@@ -1,31 +1,31 @@
-import SatFormular from './satFormular'
+import SatFormular from "./satFormular";
 export default class SatGenerator {
-  static random3Sat: (varCount: number, clauseCount: number) => any;
-  static factoringSat: () => SatFormular;
-  static additionSat: (numA: number, numB: number) => SatFormular;
-};
+  public static random3Sat: (varCount: number, clauseCount: number) => any;
+  public static factoringSat: () => SatFormular;
+  public static additionSat: (numA: number, numB: number) => SatFormular;
+}
 
 // Fisher-Yates shuffle
-function shuffle(array: Array<any>) {
+function shuffle(array: any[]) {
   let counter = array.length;
 
   // While there are elements in the array
   while (counter > 0) {
     // Pick a random index
-    let index = Math.floor(Math.random() * counter);
+    const index = Math.floor(Math.random() * counter);
 
     counter--;
 
     // Swap the last element with it
-    let temp = array[counter];
+    const temp = array[counter];
     array[counter] = array[index];
     array[index] = temp;
   }
 
   return array;
-};
+}
 
-//Range [min, max]
+// Range [min, max]
 function randomInt(min: number, max: number) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -38,45 +38,45 @@ function randomSign() {
 
 function randomAssign(count: number) {
   return randomSign() * randomInt(1, count);
-};
+}
 
 function generateModel(size: number) {
-  let result = [];
+  const result = [];
   for (let i = 0; i < size; ++i) {
     result.push(randomAssign(1));
   }
   return result;
-};
+}
 
-function arrayToSatFormular(array: Array<Array<number>>) {
-  let result = new SatFormular()
-  for (let clause of array) {
-    let resultClause: Array<boolean> = [];
+function arrayToSatFormular(array: number[][]) {
+  const result = new SatFormular();
+  for (const clause of array) {
+    const resultClause: boolean[] = [];
     let useClause = true;
-    for (let variableNumber of clause) {
-      let variableIndex = Math.abs(variableNumber) - 1
-      let variableSign = variableNumber > 0
+    for (const variableNumber of clause) {
+      const variableIndex = Math.abs(variableNumber) - 1;
+      const variableSign = variableNumber > 0;
       // SatFormular Objects cannot hold tautologic clauses (A, -A)
       // So discard that clause
-      if ((variableIndex in resultClause) && 
-          resultClause[variableIndex] != variableSign) {
-        useClause = false
-        break
+      if ((variableIndex in resultClause) &&
+          resultClause[variableIndex] !== variableSign) {
+        useClause = false;
+        break;
       }
       resultClause[variableIndex] = variableSign;
     }
     if (useClause) {
-      result.addClause(resultClause)
+      result.addClause(resultClause);
     }
   }
   return result;
-};
+}
 
-SatGenerator.random3Sat = function(varCount: number, clauseCount: number) {
-  let result: Array<Array<number>> = [];
-  let model = generateModel(varCount);
+SatGenerator.random3Sat = (varCount: number, clauseCount: number) =>  {
+  let result: number[][] = [];
+  const model = generateModel(varCount);
 
-  function getClause(id: number){
+  function getClause(id: number) {
     let clause = [ model[id] * (id + 1), 0, 0 ];
     for (let j = 1; j < clause.length; ++j) {
       clause[j] = randomAssign(varCount);
@@ -90,7 +90,7 @@ SatGenerator.random3Sat = function(varCount: number, clauseCount: number) {
   }
 
   for (let i = varCount; i < clauseCount; ++i) {
-    let curVar = randomInt(0, varCount - 1);
+    const curVar = randomInt(0, varCount - 1);
     result.push(getClause(curVar));
   }
 
@@ -98,8 +98,8 @@ SatGenerator.random3Sat = function(varCount: number, clauseCount: number) {
   return arrayToSatFormular(result);
 };
 
-SatGenerator.factoringSat = function() {
-  let satList = [
+SatGenerator.factoringSat = () => {
+  const satList = [
     [ 2, 3, 4 ],
     [ 6, 7, 8 ],
     [ -9 ],
@@ -379,24 +379,23 @@ SatGenerator.factoringSat = function() {
     [ -39, 48, 109 ],
     [ 49, 34, -109 ],
     [ 39, 48, 110 ],
-    [ 49, -34, -110 ]
+    [ 49, -34, -110 ],
   ];
 
-  let result = new SatFormular()
-  for (let clause = 0; clause < satList.length; clause++) {
-    let resultClause: Array<boolean> = [];
-    for (let variableIndex = 0; variableIndex < satList[clause].length;
-         variableIndex++) {
-      let variableNumber = satList[clause][variableIndex]
+  const result = new SatFormular();
+  for (const clause of satList) {
+    const resultClause: boolean[] = [];
+    for (const variable of clause) {
+      const variableNumber = variable;
       resultClause[Math.abs(variableNumber) - 1] =
           (variableNumber > 0) ? true : false;
     }
-    result.addClause(resultClause)
+    result.addClause(resultClause);
   }
   return result;
 };
 
-SatGenerator.additionSat = function(numA: number, numB: number) {
+SatGenerator.additionSat = (numA: number, numB: number) => {
   if (numA <= 0) {
     numA = 1;
   }
@@ -404,38 +403,38 @@ SatGenerator.additionSat = function(numA: number, numB: number) {
     numB = 1;
   }
 
-  let numALen = Math.floor(Math.log(numA) / Math.log(2)) + 1;
-  let numBLen = Math.floor(Math.log(numB) / Math.log(2)) + 1;
-  let resultLen = Math.max(numALen, numBLen) + 1;
-  let numAIdStart = 1 + resultLen;
-  let numBIdStart = numAIdStart + Math.max(numALen, numBLen);
-  let carryIdStart = numBIdStart + Math.max(numALen, numBLen);
-  let result = [];
+  const numALen = Math.floor(Math.log(numA) / Math.log(2)) + 1;
+  const numBLen = Math.floor(Math.log(numB) / Math.log(2)) + 1;
+  const resultLen = Math.max(numALen, numBLen) + 1;
+  const numAIdStart = 1 + resultLen;
+  const numBIdStart = numAIdStart + Math.max(numALen, numBLen);
+  const carryIdStart = numBIdStart + Math.max(numALen, numBLen);
+  const result = [];
 
   function carryClause(carryId: number, oldCarryId: number, inputAId: number,
                        inputBId: number) {
-    let result = [];
-    result.push([ -inputAId, -oldCarryId, carryId ]);
-    result.push([ -inputBId, -oldCarryId, carryId ]);
-    result.push([ inputAId, oldCarryId, -carryId ]);
-    result.push([ inputBId, oldCarryId, -carryId ]);
-    result.push([ inputAId, inputBId, -carryId ]);
-    result.push([ -inputAId, -inputBId, carryId ]);
-    return result;
+    const resultSubclause = [];
+    resultSubclause.push([ -inputAId, -oldCarryId, carryId ]);
+    resultSubclause.push([ -inputBId, -oldCarryId, carryId ]);
+    resultSubclause.push([ inputAId, oldCarryId, -carryId ]);
+    resultSubclause.push([ inputBId, oldCarryId, -carryId ]);
+    resultSubclause.push([ inputAId, inputBId, -carryId ]);
+    resultSubclause.push([ -inputAId, -inputBId, carryId ]);
+    return resultSubclause;
   }
 
   function resultClause(resultId: number, carryId: number, inputAId: number,
                         inputBId: number) {
-    let result = [];
-    result.push([ inputAId, inputBId, resultId, -carryId ]);
-    result.push([ inputAId, inputBId, -resultId, carryId ]);
-    result.push([ inputAId, -inputBId, resultId, carryId ]);
-    result.push([ inputAId, -inputBId, -resultId, -carryId ]);
-    result.push([ -inputAId, inputBId, resultId, carryId ]);
-    result.push([ -inputAId, inputBId, -resultId, -carryId ]);
-    result.push([ -inputAId, -inputBId, resultId, -carryId ]);
-    result.push([ -inputAId, -inputBId, -resultId, carryId ]);
-    return result;
+    const resultSubclause = [];
+    resultSubclause.push([ inputAId, inputBId, resultId, -carryId ]);
+    resultSubclause.push([ inputAId, inputBId, -resultId, carryId ]);
+    resultSubclause.push([ inputAId, -inputBId, resultId, carryId ]);
+    resultSubclause.push([ inputAId, -inputBId, -resultId, -carryId ]);
+    resultSubclause.push([ -inputAId, inputBId, resultId, carryId ]);
+    resultSubclause.push([ -inputAId, inputBId, -resultId, -carryId ]);
+    resultSubclause.push([ -inputAId, -inputBId, resultId, -carryId ]);
+    resultSubclause.push([ -inputAId, -inputBId, -resultId, carryId ]);
+    return resultSubclause;
   }
 
   for (let i = 0; i < resultLen - 1; ++i) {
@@ -448,8 +447,8 @@ SatGenerator.additionSat = function(numA: number, numB: number) {
   result.push([ -(carryIdStart + resultLen - 1), resultLen ]);
   result.push([ carryIdStart + resultLen - 1, -resultLen ]);
 
-  let binNumA = numA.toString(2).padStart(Math.max(numALen, numBLen), "0");
-  let binNumB = numB.toString(2).padStart(Math.max(numALen, numBLen), "0");
+  const binNumA = numA.toString(2).padStart(Math.max(numALen, numBLen), "0");
+  const binNumB = numB.toString(2).padStart(Math.max(numALen, numBLen), "0");
 
   for (let i = Math.max(numALen, numBLen); i >= 0; --i) {
     if (binNumA[i - 1] === "1") {

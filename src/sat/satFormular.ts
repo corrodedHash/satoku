@@ -1,28 +1,34 @@
 export default class SatFormular {
-  variableUses: Array<Array<number>> = [];
-  clauses: Array<Array<boolean>> = [];
+  public variableUses: number[][] = [];
+  public clauses: boolean[][] = [];
 
-  addClause(clause: Array<boolean>) {
-    this.clauses.push(clause)
-    for (let variable in clause) {
-      if (!(variable in this.variableUses)) {
-        this.variableUses[variable] = []
+  public addClause(clause: boolean[]) {
+    this.clauses.push(clause);
+    for (const variable in clause) {
+      if (!clause.hasOwnProperty(variable)) {
+        continue;
       }
-      this.variableUses[variable].push(this.clauses.length - 1)
+      if (!(variable in this.variableUses)) {
+        this.variableUses[variable] = [];
+      }
+      this.variableUses[variable].push(this.clauses.length - 1);
     }
-  };
+  }
 
-  toDimacs() {
-    let resultString = ""
+  public toDimacs() {
+    let resultString = "";
     resultString = "p cnf " + this.variableUses.length.toString();
     resultString += " " + this.clauses.length.toString() + "\n";
-    for (let clause of this.clauses) {
-      for (let variableNumber in clause) {
+    for (const clause of this.clauses) {
+      for (const variableNumber in clause) {
+        if (!clause.hasOwnProperty(variableNumber)) {
+          continue;
+        }
         resultString += clause[variableNumber] ? "" : "-";
-        resultString += (parseInt(variableNumber)) + 1;
+        resultString += (parseInt(variableNumber, 10)) + 1;
         resultString += " ";
       }
-      resultString += "0\n"
+      resultString += "0\n";
     }
-  };
+  }
 }
