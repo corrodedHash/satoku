@@ -39,8 +39,8 @@ export default class GameModel {
   }
 
   public notifyClauseListeners(clauseIndex: number, state: boolean) {
-    for (let j = 0; j < this.variableListeners.length; j++) {
-      this.clauseListeners[j](clauseIndex, state);
+    for (const j of this.clauseListeners) {
+      j(clauseIndex, state);
     }
   }
 
