@@ -1,8 +1,8 @@
-import SatFormular from 'sat/satFormular'
+import SatFormular from "sat/satFormular";
 export default class GameController {
-  formular: SatFormular;
-  view: any;
-  model: any;
+  public formular: SatFormular;
+  public view: any;
+  public model: any;
   constructor(parentNode: HTMLElement, gameViewClass: any,
               gameModelClass: new(arg0: SatFormular) => void,
               formular: SatFormular) {
@@ -17,12 +17,12 @@ export default class GameController {
     this.model.clauseListeners.push(this.view.setClause.bind(this.view));
 
     this.model.updateAll();
-  };
+  }
 
-  clickHandler(variableNumber: number) {
+  public clickHandler(variableNumber: number) {
     this.model.flipVariableAssignment(variableNumber);
     if (this.model.isWon()) {
       alert("You won!");
     }
-  };
-};
+  }
+}

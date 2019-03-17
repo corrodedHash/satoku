@@ -1,21 +1,20 @@
-import SatFormular from 'sat/satFormular'
+import SatFormular from "sat/satFormular";
 
-import BaseGameView from './baseGameView'
+import BaseGameView from "./baseGameView";
 
 export default class CompactGameView extends BaseGameView {
-  getCssClasses() { return CompactGameView.cssClasses; }
-  formular: any;
-  clickCallback: any;
-  mainNode: any;
-  static cssClasses: {
-    node: string; nodeNonNegated : string; nodeNegated : string;
-    nodeActive : string;
-    nodeInactive : string;
-    nodeInvisible : string;
-    nodeBox : string;
-    nodeBoxActive : string;
-    nodeBoxInactive : string;
+  public static cssClasses: {
+    node: string; nodeNonNegated: string; nodeNegated: string;
+    nodeActive: string;
+    nodeInactive: string;
+    nodeInvisible: string;
+    nodeBox: string;
+    nodeBoxActive: string;
+    nodeBoxInactive: string;
   };
+  public formular: any;
+  public clickCallback: any;
+  public mainNode: any;
   constructor(formular: SatFormular, clickCallback: () => void,
               parentNode: HTMLElement) {
     super();
@@ -23,10 +22,10 @@ export default class CompactGameView extends BaseGameView {
     this.clickCallback = clickCallback;
     this.mainNode = this.generate();
     parentNode.appendChild(this.mainNode);
-  };
+  }  public getCssClasses() { return CompactGameView.cssClasses; }
 
-  createNode(clauseIndex: number, variableNumber: number, positive: boolean) {
-    var node = document.createElement("div");
+  public createNode(clauseIndex: number, variableNumber: number, positive: boolean) {
+    const node = document.createElement("div");
     node.id = "var_" + clauseIndex + ":" + variableNumber;
     node.classList.add(CompactGameView.cssClasses.node);
     if (positive) {
@@ -36,42 +35,39 @@ export default class CompactGameView extends BaseGameView {
       node.classList.add(CompactGameView.cssClasses.nodeNonNegated);
       node.classList.add(CompactGameView.cssClasses.nodeActive);
     }
-    let id = (positive ? 1 : -1) * (variableNumber + 1)
+    const id = (positive ? 1 : -1) * (variableNumber + 1);
     node.innerHTML = id.toString();
-    node.onclick = () => { this.clickCallback(variableNumber) };
+    node.onclick = () => { this.clickCallback(variableNumber); };
     return node;
-  };
-
-  createBox(clause: Array<number>, clauseIndex: number) {
-    var box = document.createElement("div");
+  }
+  public createBox(clause: number[], clauseIndex: number) {
+    const box = document.createElement("div");
     box.className = CompactGameView.cssClasses.nodeBox;
     box.id = "clause_" + clauseIndex;
-    for (let variableNumber in clause) {
-      let currentVariable = this.createNode(
-          clauseIndex, parseInt(variableNumber), clause[variableNumber] > 0);
+    for (const variableNumber of clause) {
+      const currentVariable = this.createNode(
+          clauseIndex, variableNumber, clause[variableNumber] > 0);
       box.appendChild(currentVariable);
     }
     return box;
-  };
-
-  generate() {
-    let puzzleDiv = document.createElement("div");
+  }
+  public generate() {
+    const puzzleDiv = document.createElement("div");
     puzzleDiv.id = "puzzleContainer";
-    for (var i = 0; i < this.formular.clauses.length; ++i) {
+    for (let i = 0; i < this.formular.clauses.length; ++i) {
       puzzleDiv.appendChild(this.createBox(this.formular.clauses[i], i));
     }
     return puzzleDiv;
-  };
-};
+  }}
 
 CompactGameView.cssClasses = {
   node : "compactNode",
-  nodeNonNegated : "compactNodeNonNegated",
-  nodeNegated : "compactNodeNegated",
   nodeActive : "compactNodeActive",
-  nodeInactive : "compactNodeInactive",
-  nodeInvisible : "compactNodeInvisible",
   nodeBox : "compactNodeBox",
   nodeBoxActive : "compactNodeBoxActive",
-  nodeBoxInactive : "compactNodeBoxInactive"
+  nodeBoxInactive : "compactNodeBoxInactive",
+  nodeInactive : "compactNodeInactive",
+  nodeInvisible : "compactNodeInvisible",
+  nodeNegated : "compactNodeNegated",
+  nodeNonNegated : "compactNodeNonNegated",
 };

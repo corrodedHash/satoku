@@ -1,75 +1,79 @@
-import SatFormular from 'sat/satFormular'
+import SatFormular from "sat/satFormular";
 
 export default class GameModel {
-  variableListeners: Array < (clauseIndex: number, variableNumber: number,
-                              state: boolean) => void >= [];
-  clauseListeners: Array<(clauseIndex: number, state: boolean) => void> = [];
-  formular: SatFormular;
-  assignment: Array<boolean> = [];
+  public variableListeners: Array<(clauseIndex: number, variableNumber: number,
+                                   state: boolean) => void> = [];
+  public clauseListeners: Array<(clauseIndex: number, state: boolean) => void> =
+      [];
+  public formular: SatFormular;
+  public assignment: boolean[] = [];
   constructor(formular: SatFormular) {
-    this.formular = formular
-    for (var i = 0; i < this.formular.variableUses.length; i++) {
-      this.assignment.push(true)
+    this.formular = formular;
+    for (const i of this.formular.variableUses) {
+      this.assignment.push(true);
     }
-  };
+  }
 
-  clauseTrue(clauseIndex: number): boolean {
-    let clause = this.formular.clauses[clauseIndex];
-    for (let variableNumber in clause) {
-      if (this.assignment[variableNumber] == clause[variableNumber]) {
+  public clauseTrue(clauseIndex: number): boolean {
+    const clause = this.formular.clauses[clauseIndex];
+    for (const variableNumber in clause) {
+      if (this.assignment[variableNumber] === clause[variableNumber]) {
         return true;
       }
     }
     return false;
-  };
+  }
 
-  flipVariableAssignment(variableNumber: number): void {
+  public flipVariableAssignment(variableNumber: number): void {
     this.assignment[variableNumber] = !(this.assignment[variableNumber]);
 
-    for (let i = 0; i < this.formular.variableUses[variableNumber].length;
-         i++) {
-      var clauseIndex = this.formular.variableUses[variableNumber][i];
+    for (const i of this.formular.variableUses[variableNumber]) {
+      const clauseIndex = this.formular.variableUses[variableNumber][i];
       this.notifyVariableListeners(
           clauseIndex, variableNumber,
-          this.assignment[variableNumber] ==
+          this.assignment[variableNumber] ===
               this.formular.clauses[clauseIndex][variableNumber]);
 
       this.notifyClauseListeners(clauseIndex, this.clauseTrue(clauseIndex));
     }
-  };
+  }
 
-  notifyClauseListeners(clauseIndex: number, state: boolean) {
+  public notifyClauseListeners(clauseIndex: number, state: boolean) {
     for (let j = 0; j < this.variableListeners.length; j++) {
       this.clauseListeners[j](clauseIndex, state);
     }
-  };
+  }
 
-  notifyVariableListeners(clauseIndex: number, variableNumber: number,
-                          state: boolean) {
-    for (let j = 0; j < this.variableListeners.length; j++) {
-      this.variableListeners[j](clauseIndex, variableNumber, state);
+  public notifyVariableListeners(clauseIndex: number, variableNumber: number,
+                                 state: boolean) {
+    for (const j of this.variableListeners) {
+      j(clauseIndex, variableNumber, state);
     }
-  };
+  }
 
-  updateAll() {
+  public updateAll() {
     for (let clauseIndex = 0; clauseIndex < this.formular.clauses.length;
          clauseIndex++) {
-      for (let variableNumber in this.formular.clauses[clauseIndex]) {
+      for (const variableNumber in this.formular.clauses[clauseIndex]) {
+        if (!this.formular.clauses[clauseIndex].hasOwnProperty(
+                variableNumber)) {
+          continue;
+        }
         this.notifyVariableListeners(
-            clauseIndex, parseInt(variableNumber),
-            this.assignment[variableNumber] ==
-                this.formular.clauses[clauseIndex][variableNumber])
+            clauseIndex, parseInt(variableNumber, 10),
+            this.assignment[variableNumber] ===
+                this.formular.clauses[clauseIndex][variableNumber]);
       }
-      this.notifyClauseListeners(clauseIndex, this.clauseTrue(clauseIndex))
+      this.notifyClauseListeners(clauseIndex, this.clauseTrue(clauseIndex));
     }
-  };
+  }
 
-  isWon() {
-    for (var i = 0; i < this.formular.clauses.length; i++) {
+  public isWon() {
+    for (let i = 0; i < this.formular.clauses.length; i++) {
       if (!(this.clauseTrue(i))) {
         return false;
       }
     }
     return true;
-  };
-};
+  }
+}
