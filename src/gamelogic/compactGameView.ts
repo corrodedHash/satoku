@@ -22,9 +22,11 @@ export default class CompactGameView extends BaseGameView {
     this.clickCallback = clickCallback;
     this.mainNode = this.generate();
     parentNode.appendChild(this.mainNode);
-  }  public getCssClasses() { return CompactGameView.cssClasses; }
+  }
+  public getCssClasses() { return CompactGameView.cssClasses; }
 
-  public createNode(clauseIndex: number, variableNumber: number, positive: boolean) {
+  public createNode(clauseIndex: number, variableNumber: number,
+                    positive: boolean) {
     const node = document.createElement("div");
     node.id = "var_" + clauseIndex + ":" + variableNumber;
     node.classList.add(CompactGameView.cssClasses.node);
@@ -40,17 +42,23 @@ export default class CompactGameView extends BaseGameView {
     node.onclick = () => { this.clickCallback(variableNumber); };
     return node;
   }
+
   public createBox(clause: number[], clauseIndex: number) {
     const box = document.createElement("div");
     box.className = CompactGameView.cssClasses.nodeBox;
     box.id = "clause_" + clauseIndex;
-    for (const variableNumber of clause) {
-      const currentVariable = this.createNode(
-          clauseIndex, variableNumber, clause[variableNumber] > 0);
+    for (const variableNumber in clause) {
+      if (!clause.hasOwnProperty(variableNumber)) {
+        continue;
+      }
+      const currentVariable =
+          this.createNode(clauseIndex, parseInt(variableNumber, 10),
+                          clause[variableNumber] > 0);
       box.appendChild(currentVariable);
     }
     return box;
   }
+
   public generate() {
     const puzzleDiv = document.createElement("div");
     puzzleDiv.id = "puzzleContainer";
@@ -58,7 +66,8 @@ export default class CompactGameView extends BaseGameView {
       puzzleDiv.appendChild(this.createBox(this.formular.clauses[i], i));
     }
     return puzzleDiv;
-  }}
+  }
+}
 
 CompactGameView.cssClasses = {
   node : "compactNode",

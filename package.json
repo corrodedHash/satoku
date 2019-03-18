@@ -1,28 +1,40 @@
 {
-  "name": "satouken",
-  "version": "1.0.0",
-  "description": "",
-  "main": "lib/index.js",
-  "directories": {
-    "lib": "lib"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/corrodedHash/satouken.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/corrodedHash/satouken/issues"
-  },
-  "homepage": "https://github.com/corrodedHash/satouken#readme",
-  "dependencies": {
-    "angular": "^1.7.5",
-    "chai": "^4.2.0",
-    "mocha": "^5.2.0",
-    "requirejs": "^2.3.6"
-  }
+    "name": "satouken",
+    "version": "1.0.0",
+    "description": "",
+    "main": "lib/index.js",
+    "directories": {
+        "lib": "lib"
+    },
+    "scripts": {
+        "test": "mocha -r ts-node/register -r amd-loader -r source-map-support/register --full-trace --bail src/**/*.spec.ts",
+        "test_cov": "nyc mocha -r ts-node/register -r amd-loader -r source-map-support/register --full-trace --bail src/**/*.spec.ts",
+        "build": "npm run compile && npm run optimize",
+        "compile": "tsc",
+        "optimize": "r.js -o rjs_config.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/corrodedHash/satouken.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/corrodedHash/satouken/issues"
+    },
+    "homepage": "https://github.com/corrodedHash/satouken#readme",
+    "dependencies": {
+        "almond": "^0.3.3",
+        "requirejs": "^2.3.6",
+        "typescript": "^3.3.3333"
+    },
+    "devDependencies": {
+        "@types/mocha": "^5.2.6",
+        "@types/node": "^10.12.30",
+        "amd-loader": "0.0.8",
+        "mocha": "^5.2.0",
+        "nyc": "^13.3.0",
+        "source-map-support": "^0.5.10",
+        "ts-node": "^8.0.3"
+    }
 }

@@ -7,10 +7,16 @@
     <link rel="stylesheet" href="css/compact.css" />
     <link rel="stylesheet" href="css/index.css" />
 
+    <!--
     <script
       data-main="lib/index.js"
       src="node_modules/requirejs/require.js"
     ></script>
+    -->
+  <script src="lib/main-built.js" defer>
+
+  </script>
+  <!--
     <script>
       let displayQuiz;
       require(['index'], (index) => {
@@ -22,9 +28,10 @@
         };
       }
     </script>
+    -->
     <script src="formatting.js"></script>
   </head>
-  <body onload="openNav(); hihi();">
+  <body>
     <div id="puzzleSelector">
       <label class="fancyRadio">
         <input id="beauty" type="radio" name="DisplayMode" checked="checked" />

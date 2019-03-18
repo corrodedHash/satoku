@@ -25,24 +25,20 @@ function getFormular() {
   const factoringRadio = document.getElementById("fact") as HTMLInputElement;
   const randomRadio = document.getElementById("rand") as HTMLInputElement;
   const additionRadio = document.getElementById("add") as HTMLInputElement;
-  const additionInput1 =
-      document.getElementById("additionNumber1") as HTMLInputElement;
-  const additionInput2 =
-      document.getElementById("additionNumber2") as HTMLInputElement;
-
-  const factoringRadioChecked = (factoringRadio.checked === true);
-  const randomRadioChecked = (randomRadio.checked === true);
-  const additionRadioChecked = (additionRadio.checked === true);
-  const additionNumber1 = parseInt(additionInput1.value, 10);
-  const additionNumber2 = parseInt(additionInput2.value, 10);
 
   let formular: SatFormular;
 
-  if (factoringRadioChecked) {
+  if (factoringRadio.checked) {
     formular = SatGenerator.factoringSat();
-  } else if (randomRadioChecked) {
+  } else if (randomRadio.checked) {
     formular = SatGenerator.random3Sat(10, 20);
-  } else if (additionRadioChecked) {
+  } else if (additionRadio.checked) {
+    const additionInput1 =
+        document.getElementById("additionNumber1") as HTMLInputElement;
+    const additionInput2 =
+        document.getElementById("additionNumber2") as HTMLInputElement;
+    const additionNumber1 = parseInt(additionInput1.value, 10);
+    const additionNumber2 = parseInt(additionInput2.value, 10);
     formular = SatGenerator.additionSat(additionNumber1, additionNumber2);
   } else {
     alert("Huh?");
@@ -63,4 +59,12 @@ export function displayQuiz() {
 
   const gameController =
       new GameController(myNode, gameViewClass, GameModel, formular);
+}
+
+displayQuiz();
+const myButton = document.getElementById("generateButton") as HTMLInputElement;
+if (myButton === null) {
+  throw Error();
+} else {
+  myButton.onclick = () => { displayQuiz(); };
 }
