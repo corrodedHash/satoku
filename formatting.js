@@ -5,7 +5,7 @@ function toggleInvisDiv(activatedRadio) {
     if (radios[i].checked) {
       if (radioToggleDiv !== null) {
         let style = window.getComputedStyle(radioToggleDiv);
-        radioToggleDiv.style.height = style.getPropertyValue('max-height');
+        radioToggleDiv.style.height = style.getPropertyValue("max-height");
       }
     } else {
       if (radioToggleDiv !== null) {

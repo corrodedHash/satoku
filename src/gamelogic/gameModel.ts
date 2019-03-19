@@ -27,8 +27,7 @@ export default class GameModel {
   public flipVariableAssignment(variableNumber: number): void {
     this.assignment[variableNumber] = !(this.assignment[variableNumber]);
 
-    for (const i of this.formular.variableUses[variableNumber]) {
-      const clauseIndex = this.formular.variableUses[variableNumber][i];
+    for (const clauseIndex of this.formular.variableUses[variableNumber]) {
       this.notifyVariableListeners(
           clauseIndex, variableNumber,
           this.assignment[variableNumber] ===
